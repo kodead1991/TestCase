@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+
 
 namespace TestCaseConsole
 {
@@ -7,16 +7,9 @@ namespace TestCaseConsole
     {
         static void Main(string[] args)
         {
-            string path = @"C:\SomeDir\hta.txt";
-
-            using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
-            {
-                string line;
-                while ((line = sr.ReadLine()) != null)
-                {
-                    Console.WriteLine(line);
-                }
-            }
+            string path = @"C:\Users\Professional\Documents\GitHub\TestCase\testKdr.kdr";
+            Kadr k = new Kadr();
+            k.openKadr(path);
         }
     }
 }

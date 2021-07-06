@@ -1,0 +1,16 @@
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\bin\Debug\net5.0\TestCaseConsole.exe
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\bin\Debug\net5.0\TestCaseConsole.deps.json
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\bin\Debug\net5.0\TestCaseConsole.runtimeconfig.json
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\bin\Debug\net5.0\TestCaseConsole.runtimeconfig.dev.json
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\bin\Debug\net5.0\TestCaseConsole.dll
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\bin\Debug\net5.0\ref\TestCaseConsole.dll
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\bin\Debug\net5.0\TestCaseConsole.pdb
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\TestCaseConsole.csproj.AssemblyReference.cache
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\TestCaseConsole.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\TestCaseConsole.AssemblyInfoInputs.cache
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\TestCaseConsole.AssemblyInfo.cs
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\TestCaseConsole.csproj.CoreCompileInputs.cache
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\TestCaseConsole.dll
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\ref\TestCaseConsole.dll
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\TestCaseConsole.pdb
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseConsole\obj\Debug\net5.0\TestCaseConsole.genruntimeconfig.cache
