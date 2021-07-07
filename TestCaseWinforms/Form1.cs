@@ -38,6 +38,8 @@ namespace TestCaseWinforms
             path = dialog.FileName;
             k = new Kadr();
             k.openKadr(path);
+            frameViewer1.
+
             int xStep = 42, yStep = 22;
             trackBar1.Value = 1;
             trackBar1.Minimum = 1;

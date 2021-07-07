@@ -22,26 +22,18 @@ namespace TestCaseWinforms
         }
         public void openKadr(string path)
         {
+            kadrRead(path);    
+            wordCounter();
+            kadrCounter();
+            kadrFill();            
+        }
+        public void kadrRead(string path)
+        {
             string strBuffer;
             StreamReader sr = new StreamReader(path);
             while ((strBuffer = sr.ReadLine()) != null)
             {
                 this.line = strBuffer.Split(' ').Select(s => s.Trim()).Where(s => s != "").ToArray();
-            }
-                
-            wordCounter();
-            kadrCounter();
-
-            kadr = new string[kadrCount, wordCount];
-            for (int i = 0, ki = 0; i < kadrCount; i++)
-            {
-                for (int j = 0, kj = 0; j < wordCount+1; j++)
-                {
-                    if (this.line[(wordCount+1) * i + j] == "" || this.line[(wordCount + 1) * i + j] == "=KADR=")
-                        continue;
-                    kadr[ki, kj++] = this.line[(wordCount + 1) * i + j];
-                }
-                ki++;
             }
         }
         public void wordCounter()
@@ -71,6 +63,20 @@ namespace TestCaseWinforms
             for (int i = 0; i < line.Length; i++)
                 if (line[i] == "=KADR=")
                     kadrCount++;
+        }    
+        public void kadrFill()
+        {
+            kadr = new string[kadrCount, wordCount];
+            for (int i = 0, ki = 0; i < kadrCount; i++)
+            {
+                for (int j = 0, kj = 0; j < wordCount + 1; j++)
+                {
+                    if (this.line[(wordCount + 1) * i + j] == "" || this.line[(wordCount + 1) * i + j] == "=KADR=")
+                        continue;
+                    kadr[ki, kj++] = this.line[(wordCount + 1) * i + j];
+                }
+                ki++;
+            }
         }
     }
 }
