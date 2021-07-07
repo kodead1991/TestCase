@@ -1,0 +1,10 @@
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\bin\Debug\TestCaseWinforms.exe.config
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\bin\Debug\TestCaseWinforms.exe
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\bin\Debug\TestCaseWinforms.pdb
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csproj.AssemblyReference.cache
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.Form1.resources
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.Properties.Resources.resources
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csproj.GenerateResource.cache
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csproj.CoreCompileInputs.cache
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.exe
+C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.pdb
