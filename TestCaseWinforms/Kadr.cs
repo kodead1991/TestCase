@@ -34,6 +34,7 @@ namespace TestCaseWinforms
             {
                 this.line = strBuffer.Split(' ').Select(s => s.Trim()).Where(s => s != "").ToArray();
             }
+            this.line = this.line.Where(val => val != "=KADR=").ToArray();
         }
         public void wordCounter()
         {

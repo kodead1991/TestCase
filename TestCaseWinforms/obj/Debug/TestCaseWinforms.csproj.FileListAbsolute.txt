@@ -8,4 +8,3 @@ C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestC
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.exe
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.pdb
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FrameViewer.resources
-C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csprojAssemblyReference.cache
