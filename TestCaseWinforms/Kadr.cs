@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace TestCaseWinforms
 {
-    class Kadr
+    public class Kadr
     {
         string[] line;
         public string[,] kadr;
@@ -16,7 +16,6 @@ namespace TestCaseWinforms
         public int kadrCount { get; set; }
         public Kadr()
         {
-            kadr = null;
             wordCount = 0;
             kadrCount = 0;
         }
@@ -74,6 +73,18 @@ namespace TestCaseWinforms
                     if (this.line[(wordCount + 1) * i + j] == "" || this.line[(wordCount + 1) * i + j] == "=KADR=")
                         continue;
                     kadr[ki, kj++] = this.line[(wordCount + 1) * i + j];
+                }
+                ki++;
+            }
+        }
+        public void kadrFill(string str)
+        {
+            kadr = new string[kadrCount, wordCount];
+            for (int i = 0, ki = 0; i < kadrCount; i++)
+            {
+                for (int j = 0, kj = 0; j < wordCount + 1; j++)
+                {
+                    kadr[ki, kj++] = str;
                 }
                 ki++;
             }
