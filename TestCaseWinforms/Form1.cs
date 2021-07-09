@@ -18,7 +18,6 @@ namespace TestCaseWinforms
         public Form1()
         {
             InitializeComponent();
-
             //label1 = new Label();
             //this.Controls.Add(label1);
 
@@ -39,7 +38,9 @@ namespace TestCaseWinforms
             path = dialog.FileName;
             k = new Kadr();
             k.openKadr(path);
-
+            this.frameViewer1.kadrInit(k);
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Maximum = k.kadrCount;
             //int xStep = 42, yStep = 22;
             //trackBar1.Value = 1;
             //trackBar1.Minimum = 1;
@@ -64,6 +65,8 @@ namespace TestCaseWinforms
 
         private void TrackBar1_ValueChanged(object sender, EventArgs e)
         {
+            this.frameViewer1.drawKadr(trackBar1.Value-1);
+            this.kadrNumber.Text = Convert.ToString(this.trackBar1.Value);
             //for (int i = 0; i < k.wordCount / 32 + 1; i++)
             //    for (int j = 0; j < 32; j++)
             //    {

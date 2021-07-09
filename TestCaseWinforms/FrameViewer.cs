@@ -19,25 +19,41 @@ namespace TestCaseWinforms
         public FrameViewer()
         {
             InitializeComponent();
-            drawString = new string[544];
-            for (int i = 0; i < 544; i++)
+            this.DoubleBuffered = true;
+        }
+        public void kadrInit(Kadr kadr)
+        {
+            this.k = kadr;
+        }
+        public void drawKadr(int kadrNum)
+        {
+            if (k == null || k.kadr.Length == 0)
+                return;
+            drawString = new string[543];
+            for (int i = 0; i < 543; i++)
             {
-                drawString[i] = "0";
+                drawString[i] = k.kadr[kadrNum,i];
             }
+            this.Invalidate();
+            return;
         }
         private void FrameViewer_Paint(object sender, PaintEventArgs e)
         {
+            if (drawString == null || drawString.Length == 0)
+                return;
+
             Font drawFont = new Font("Arial", 12);
             SolidBrush drawBrush = new SolidBrush(Color.Black);
             StringFormat drawFormat = new StringFormat();
             
-            for (int i = 0; i < 544 / 32; i++)
+            for (int i = 0; i < this.k.wordCount / 32 + 1; i++)
             {
                 for (int j = 0; j < 32; j++)
                 {
-                    posX = 10 + j * 35;
+                    posX = 10 + j * 40;
                     posY = 10 + i * 20;
-                    e.Graphics.DrawString(String.Format(drawString[j+i*32]), drawFont, drawBrush, posX, posY, drawFormat);
+                    if (j + i * 32 < this.k.wordCount)
+                        e.Graphics.DrawString(String.Format(drawString[j+i*32]), drawFont, drawBrush, posX, posY, drawFormat);
                 }
             }
         }

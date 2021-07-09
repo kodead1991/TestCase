@@ -22,8 +22,6 @@ namespace TestCaseWinforms
         public void openKadr(string path)
         {
             kadrRead(path);    
-            wordCounter();
-            kadrCounter();
             kadrFill();            
         }
         public void kadrRead(string path)
@@ -34,6 +32,8 @@ namespace TestCaseWinforms
             {
                 this.line = strBuffer.Split(' ').Select(s => s.Trim()).Where(s => s != "").ToArray();
             }
+            wordCounter();
+            kadrCounter();
             this.line = this.line.Where(val => val != "=KADR=").ToArray();
         }
         public void wordCounter()
@@ -69,24 +69,8 @@ namespace TestCaseWinforms
             kadr = new string[kadrCount, wordCount];
             for (int i = 0, ki = 0; i < kadrCount; i++)
             {
-                for (int j = 0, kj = 0; j < wordCount + 1; j++)
-                {
-                    if (this.line[(wordCount + 1) * i + j] == "" || this.line[(wordCount + 1) * i + j] == "=KADR=")
-                        continue;
-                    kadr[ki, kj++] = this.line[(wordCount + 1) * i + j];
-                }
-                ki++;
-            }
-        }
-        public void kadrFill(string str)
-        {
-            kadr = new string[kadrCount, wordCount];
-            for (int i = 0, ki = 0; i < kadrCount; i++)
-            {
-                for (int j = 0, kj = 0; j < wordCount + 1; j++)
-                {
-                    kadr[ki, kj++] = str;
-                }
+                for (int j = 0, kj = 0; j < wordCount; j++)
+                    kadr[ki, kj++] = this.line[(wordCount) * i + j];
                 ki++;
             }
         }
