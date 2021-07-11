@@ -15,6 +15,9 @@ namespace TestCaseWinforms
         public string[] drawString;
         public float posX, posY;
         Kadr k;
+        Font drawFont = new Font("Courier New", 10);
+        SolidBrush drawBrush = new SolidBrush(Color.Black);
+        StringFormat drawFormat = new StringFormat();
 
         public FrameViewer()
         {
@@ -30,10 +33,18 @@ namespace TestCaseWinforms
             if (k == null || k.kadr.Length == 0)
                 return;
             drawString = new string[543];
-            for (int i = 0; i < 543; i++)
+            for (int i = 0; i < 31; i++)
             {
-                drawString[i] = k.kadr[kadrNum,i];
+                drawString[i] = (Convert.ToInt32(k.kadr[kadrNum, i], 16) & 0x3FF).ToString("X4");
             }
+            for (int i = 31; i < 543; i++)
+            {
+                drawString[i] = ((Convert.ToInt32(k.kadr[kadrNum, i], 16) & 0x1FE) >> 1).ToString("X2");
+            }
+
+            Font drawFont = new Font("Courier New", 10);
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+            StringFormat drawFormat = new StringFormat();
             this.Invalidate();
             return;
         }
@@ -42,9 +53,7 @@ namespace TestCaseWinforms
             if (drawString == null || drawString.Length == 0)
                 return;
 
-            Font drawFont = new Font("Arial", 12);
-            SolidBrush drawBrush = new SolidBrush(Color.Black);
-            StringFormat drawFormat = new StringFormat();
+            
             
             for (int i = 0; i < this.k.wordCount / 32 + 1; i++)
             {
@@ -53,7 +62,8 @@ namespace TestCaseWinforms
                     posX = 10 + j * 40;
                     posY = 10 + i * 20;
                     if (j + i * 32 < this.k.wordCount)
-                        e.Graphics.DrawString(String.Format(drawString[j+i*32]), drawFont, drawBrush, posX, posY, drawFormat);
+                        e.Graphics.DrawString(drawString[j+i*32].ToString(), drawFont, drawBrush, posX, posY);
+
                 }
             }
         }

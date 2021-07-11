@@ -39,20 +39,21 @@ namespace TestCaseWinforms
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(10, 515);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(2);
+            this.trackBar1.Location = new System.Drawing.Point(13, 634);
+            this.trackBar1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(1274, 45);
+            this.trackBar1.Size = new System.Drawing.Size(1678, 56);
             this.trackBar1.TabIndex = 1;
             this.trackBar1.Value = 1;
             this.trackBar1.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
             // 
             // openFile
             // 
-            this.openFile.Location = new System.Drawing.Point(12, 11);
+            this.openFile.Location = new System.Drawing.Point(16, 14);
+            this.openFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.openFile.Name = "openFile";
-            this.openFile.Size = new System.Drawing.Size(75, 23);
+            this.openFile.Size = new System.Drawing.Size(100, 28);
             this.openFile.TabIndex = 2;
             this.openFile.Text = "Открыть";
             this.openFile.UseVisualStyleBackColor = true;
@@ -61,9 +62,10 @@ namespace TestCaseWinforms
             // kadrNumber
             // 
             this.kadrNumber.Font = new System.Drawing.Font("MS Reference Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.kadrNumber.Location = new System.Drawing.Point(1294, 524);
+            this.kadrNumber.Location = new System.Drawing.Point(1698, 645);
+            this.kadrNumber.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.kadrNumber.Name = "kadrNumber";
-            this.kadrNumber.Size = new System.Drawing.Size(69, 24);
+            this.kadrNumber.Size = new System.Drawing.Size(92, 30);
             this.kadrNumber.TabIndex = 3;
             this.kadrNumber.Text = "1";
             this.kadrNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -71,30 +73,34 @@ namespace TestCaseWinforms
             // kadrName
             // 
             this.kadrName.Font = new System.Drawing.Font("MS Reference Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.kadrName.Location = new System.Drawing.Point(1289, 498);
+            this.kadrName.Location = new System.Drawing.Point(1691, 613);
+            this.kadrName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.kadrName.Name = "kadrName";
-            this.kadrName.Size = new System.Drawing.Size(74, 26);
+            this.kadrName.Size = new System.Drawing.Size(99, 32);
             this.kadrName.TabIndex = 4;
             this.kadrName.Text = "КАДР";
             // 
             // frameViewer1
             // 
-            this.frameViewer1.Location = new System.Drawing.Point(12, 41);
+            this.frameViewer1.Location = new System.Drawing.Point(16, 50);
+            this.frameViewer1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.frameViewer1.MaximumSize = new System.Drawing.Size(1720, 450);
+            this.frameViewer1.MinimumSize = new System.Drawing.Size(1720, 450);
             this.frameViewer1.Name = "frameViewer1";
-            this.frameViewer1.Size = new System.Drawing.Size(1316, 458);
+            this.frameViewer1.Size = new System.Drawing.Size(1720, 450);
             this.frameViewer1.TabIndex = 5;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1377, 570);
+            this.ClientSize = new System.Drawing.Size(1792, 702);
             this.Controls.Add(this.frameViewer1);
             this.Controls.Add(this.kadrName);
             this.Controls.Add(this.kadrNumber);
             this.Controls.Add(this.openFile);
             this.Controls.Add(this.trackBar1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();

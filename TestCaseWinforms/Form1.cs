@@ -18,15 +18,6 @@ namespace TestCaseWinforms
         public Form1()
         {
             InitializeComponent();
-            //label1 = new Label();
-            //this.Controls.Add(label1);
-
-            //this.label1.Location = new System.Drawing.Point(255, 187);
-            //this.label1.Name = "label1";
-            //this.label1.Size = new System.Drawing.Size(35, 13);
-            //this.label1.TabIndex = 3;
-            //this.label1.Text = "label1";
-            //this.label1.AutoSize = true;
         }
 
         private void openFile_click(object sender, EventArgs e)
@@ -41,6 +32,7 @@ namespace TestCaseWinforms
             this.frameViewer1.kadrInit(k);
             this.trackBar1.Minimum = 1;
             this.trackBar1.Maximum = k.kadrCount;
+            this.frameViewer1.drawKadr(0);
             //int xStep = 42, yStep = 22;
             //trackBar1.Value = 1;
             //trackBar1.Minimum = 1;
@@ -67,6 +59,9 @@ namespace TestCaseWinforms
         {
             this.frameViewer1.drawKadr(trackBar1.Value-1);
             this.kadrNumber.Text = Convert.ToString(this.trackBar1.Value);
+            //UInt32 de = 0x63 & 0x31;
+            //string str1 = "0063";
+            //this.kadrNumber.Text = Convert.ToString(Convert.ToInt32(str1,16) & 0x31,16);
             //for (int i = 0; i < k.wordCount / 32 + 1; i++)
             //    for (int j = 0; j < 32; j++)
             //    {
