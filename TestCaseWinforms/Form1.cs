@@ -13,67 +13,65 @@ namespace TestCaseWinforms
     public partial class Form1 : Form
     {
         string path;
-        Kadr k = new Kadr();
-        private Label[,] kadrLabel;
+        Kadr k;
         public Form1()
         {
             InitializeComponent();
+            this.comboBox1.Items.AddRange(new string[] {"(0111111110) БИТС-М", "(0111001110) VITS-M" });
+            this.comboBox1.SelectedIndex = 1;
+            this.comboBox1.Enabled = false;
         }
 
+        //открытие файла с кадром
         private void openFile_click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Файл кадра(*.kdr)|*.kdr|All files(*.*)|*.*";
             if (dialog.ShowDialog() == DialogResult.Cancel)
                 return;
-            // получаем путь выбранного файла
-            path = dialog.FileName;
+
+            
+            path = dialog.FileName; // получаем путь выбранного файла
             k = new Kadr();
             k.openKadr(path);
-            this.frameViewer1.kadrInit(k);
+            this.comboBox1.Enabled = true;
+            this.frameViewer1.k = k; //передача массива кадров в Control отоборажения кадра
             this.trackBar1.Minimum = 1;
             this.trackBar1.Maximum = k.kadrCount;
-            this.frameViewer1.drawKadr(0);
-            //int xStep = 42, yStep = 22;
-            //trackBar1.Value = 1;
-            //trackBar1.Minimum = 1;
-            //trackBar1.Maximum = k.kadrCount;
-            //kadrLabel = new Label[k.wordCount / 32 + 1, 32];
-            //for (int i = 0; i < k.wordCount / 32 + 1; i++)
-            //    for (int j = 0; j < 32; j++)
-            //    {
-            //        kadrLabel[i, j] = new Label();
-            //        this.Controls.Add(kadrLabel[i, j]);
-            //        kadrLabel[i, j].Name = "Pos" + i + "-" + j;
-            //        if (k.kadr.GetLength(1) <= 32 * i + j)
-            //            kadrLabel[i, j].Text = "";
-            //        else
-            //            kadrLabel[i, j].Text = k.kadr[0, 32 * i + j];
-            //        kadrLabel[i, j].Location = new System.Drawing.Point(xStep * j + 12, yStep *i + 42);
-            //        kadrLabel[i, j].Size = new System.Drawing.Size(35, 13);
-            //        kadrLabel[i, j].TabIndex = 3;
-            //        kadrLabel[i, j].AutoSize = true;
-            //    }
+            this.frameViewer1.displayKadrHEX(0); //отображение первого кадра после загрузки
         }
 
+        //отображение выбранного кадра через изменение ползунка
         private void TrackBar1_ValueChanged(object sender, EventArgs e)
         {
-            this.frameViewer1.drawKadr(trackBar1.Value-1);
-            this.kadrNumber.Text = Convert.ToString(this.trackBar1.Value);
-            //UInt32 de = 0x63 & 0x31;
-            //string str1 = "0063";
-            //this.kadrNumber.Text = Convert.ToString(Convert.ToInt32(str1,16) & 0x31,16);
-            //for (int i = 0; i < k.wordCount / 32 + 1; i++)
-            //    for (int j = 0; j < 32; j++)
-            //    {
-            //        if (k.kadr.GetLength(1) <= 32 * i + j)
-            //            kadrLabel[i, j].Text = "";
-            //        else
-            //            kadrLabel[i, j].Text = k.kadr[this.trackBar1.Value - 1, 32 * i + j];
-            //    }
-            //this.label1.Text = Convert.ToString(this.trackBar1.Value);
+            if (this.radioButtonHEX.Checked == true)
+                this.frameViewer1.displayKadrHEX(trackBar1.Value - 1);
+            else
+                this.frameViewer1.displayKadrDEC(trackBar1.Value - 1);
 
-            //frameViewer1.drawString = trackBar1.Value.ToString();
-            //frameViewer1.Invalidate();
+            this.kadrNumber.Text = Convert.ToString(this.trackBar1.Value);
+        }
+
+        //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения формата отображения
+        private void RadioButtonHEX_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.radioButtonHEX.Checked == true)
+                this.frameViewer1.displayKadrHEX(trackBar1.Value - 1);
+            else
+                this.frameViewer1.displayKadrDEC(trackBar1.Value - 1);
+        }
+
+        //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения стуктуры слов кадра
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (k == null || k.kadr.Length == 0)
+                return;
+            this.frameViewer1.k.kadrType = k.kadrType = this.comboBox1.Text; //передача типа структуры кадров в Control отоборажения кадра
+
+            if (this.radioButtonHEX.Checked == true)
+                this.frameViewer1.displayKadrHEX(trackBar1.Value - 1);
+            else
+                this.frameViewer1.displayKadrDEC(trackBar1.Value - 1);
         }
     }
 }
