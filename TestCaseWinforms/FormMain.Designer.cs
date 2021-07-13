@@ -1,7 +1,7 @@
 ﻿
 namespace TestCaseWinforms
 {
-    partial class Form1
+    partial class FormMain
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -36,15 +36,15 @@ namespace TestCaseWinforms
             this.label1 = new System.Windows.Forms.Label();
             this.radioButtonHEX = new System.Windows.Forms.RadioButton();
             this.radioButtonDEC = new System.Windows.Forms.RadioButton();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.frameViewer1 = new TestCaseWinforms.FrameViewer();
+            this.comboBoxWordFormat = new System.Windows.Forms.ComboBox();
+            this.frameViewer = new TestCaseWinforms.FrameViewer();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(10, 515);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.trackBar1.Margin = new System.Windows.Forms.Padding(2);
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(1258, 45);
@@ -119,45 +119,46 @@ namespace TestCaseWinforms
             // 
             // comboBox1
             // 
-            this.comboBox1.DisplayMember = "1";
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBox1.Location = new System.Drawing.Point(496, 487);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(233, 26);
-            this.comboBox1.Sorted = true;
-            this.comboBox1.TabIndex = 9;
-            this.comboBox1.ValueMember = "1";
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
+            this.comboBoxWordFormat.DisplayMember = "1";
+            this.comboBoxWordFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxWordFormat.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.comboBoxWordFormat.Location = new System.Drawing.Point(496, 487);
+            this.comboBoxWordFormat.Name = "comboBox1";
+            this.comboBoxWordFormat.Size = new System.Drawing.Size(233, 26);
+            this.comboBoxWordFormat.Sorted = true;
+            this.comboBoxWordFormat.TabIndex = 9;
+            this.comboBoxWordFormat.ValueMember = "1";
+            this.comboBoxWordFormat.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // frameViewer1
             // 
-            this.frameViewer1.frameToShow = null;
-            this.frameViewer1.Location = new System.Drawing.Point(12, 41);
-            this.frameViewer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.frameViewer1.MaximumSize = new System.Drawing.Size(1290, 440);
-            this.frameViewer1.MinimumSize = new System.Drawing.Size(1290, 440);
-            this.frameViewer1.Name = "frameViewer1";
-            this.frameViewer1.Size = new System.Drawing.Size(1290, 440);
-            this.frameViewer1.TabIndex = 5;
+            this.frameViewer.frameToShow = null;
+            this.frameViewer.Location = new System.Drawing.Point(12, 41);
+            this.frameViewer.Margin = new System.Windows.Forms.Padding(4);
+            this.frameViewer.MaximumSize = new System.Drawing.Size(1290, 440);
+            this.frameViewer.MinimumSize = new System.Drawing.Size(1290, 440);
+            this.frameViewer.Name = "frameViewer1";
+            this.frameViewer.Size = new System.Drawing.Size(1290, 440);
+            this.frameViewer.TabIndex = 5;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1344, 570);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBoxWordFormat);
             this.Controls.Add(this.radioButtonDEC);
             this.Controls.Add(this.radioButtonHEX);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.frameViewer1);
+            this.Controls.Add(this.frameViewer);
             this.Controls.Add(this.kadrName);
             this.Controls.Add(this.kadrNumber);
             this.Controls.Add(this.openFile);
             this.Controls.Add(this.trackBar1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -169,11 +170,11 @@ namespace TestCaseWinforms
         private System.Windows.Forms.Button openFile;
         private System.Windows.Forms.Label kadrNumber;
         private System.Windows.Forms.Label kadrName;
-        private FrameViewer frameViewer1;
+        private FrameViewer frameViewer;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton radioButtonHEX;
         private System.Windows.Forms.RadioButton radioButtonDEC;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxWordFormat;
     }
 }
 

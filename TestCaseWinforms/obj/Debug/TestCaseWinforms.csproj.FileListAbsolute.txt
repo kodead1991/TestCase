@@ -13,10 +13,10 @@ C:\GitHub\TestCase\TestCaseWinforms\bin\Debug\TestCaseWinforms.exe.config
 C:\GitHub\TestCase\TestCaseWinforms\bin\Debug\TestCaseWinforms.exe
 C:\GitHub\TestCase\TestCaseWinforms\bin\Debug\TestCaseWinforms.pdb
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csprojAssemblyReference.cache
-C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.Form1.resources
-C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FrameViewer.resources
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.Properties.Resources.resources
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csproj.GenerateResource.cache
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csproj.CoreCompileInputs.cache
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.exe
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.pdb
+C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FrameViewInfo.resources
+C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FormMain.resources
