@@ -60,6 +60,7 @@
       <DependentUpon>FrameViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Frame.cs" />
+    <Compile Include="FrameViewInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">

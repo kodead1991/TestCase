@@ -14,14 +14,15 @@ namespace TestCaseWinforms
             int frameSize = wordNumber * 5 + 11;
             int startPos = frameSize * frameNumber;
             char[] charLine = new char[frameSize];
-            sr.Read(charLine, startPos, startPos + frameSize);
+            sr.Read(charLine, 0, frameSize);
+            long pos = sr.BaseStream.Position;
             string[] str = (new string(charLine)).Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             str = str.Where(val => val != "=KADR=").ToArray();
 
             Frame frame = new Frame(wordNumber);
-            for (int i = wordNumber * frameNumber; i < wordNumber * (frameNumber + 1); i++)
+            for (int i = 0; i < wordNumber; i++)
             {
-                frame.frameArray[i - wordNumber * frameNumber] = Convert.ToUInt16(str[i], 16);
+                frame.frameArray[i] = Convert.ToUInt16(str[i], 16);
             }
             return frame;
         }

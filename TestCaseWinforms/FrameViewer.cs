@@ -10,43 +10,20 @@ using System.Windows.Forms;
 
 namespace TestCaseWinforms
 {
-    public class FrameViewInfo
-    {
-        private ushort _mask;
-        private ushort _offset;
-        private string _name;
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-        public ushort Mask
-        {
-            get { return _mask; }
-            set { _mask = value; }
-        }
-        public ushort Offset
-        {
-            get { return _offset; }
-            set { _offset = value; }
-        }
-        public FrameViewInfo(string name ,ushort mask, ushort offset)
-        {
-            Name = name;
-            Mask = mask;
-            Offset = offset;
-        }
-        public override string ToString()
-        {
-            return Name;
-        }
-    }
-
     public partial class FrameViewer : UserControl
     {
-        public string[] drawString;
-        public Frame frameToShow { get; set; }
+        Frame _frameToShow;
+        string _path;
+        public Frame FrameToShow
+        {
+            get { return _frameToShow; }
+            set { _frameToShow = value; Invalidate(); }
+        }
+        public string Path
+        {
+            get { return _path; }
+            set { _path = value; }
+        }
         int frameInfoSize = 31;
 
         public FrameViewer()
@@ -89,23 +66,23 @@ namespace TestCaseWinforms
 
         private void FrameViewer_Paint(object sender, PaintEventArgs e)
         {
-            //if (drawString == null || drawString.Length == 0)
-            //    return;
+            if (FrameToShow == null || FrameToShow.Length == 0)
+                return;
 
-            ////рисуем название и служебную часть кадра
-            //Font drawFont = new Font("Courier New", 10);
-            //SolidBrush drawBrush = new SolidBrush(Color.DarkMagenta);
+            //рисуем название и служебную часть кадра
+            Font drawFont = new Font("Courier New", 10);
+            SolidBrush drawBrush = new SolidBrush(Color.DarkMagenta);
 
-            //e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + frameToShow.path, drawFont, drawBrush, 10, 10);
-            //for (int j = 0; j < frameInfoSize; j++)
-            //    e.Graphics.DrawString(drawString[j].ToString(), drawFont, drawBrush, 10 + j * 40, 30);
+            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path, drawFont, drawBrush, 10, 10);
+            for (int j = 0; j < frameInfoSize; j++)
+                e.Graphics.DrawString(FrameToShow.frameArray[j].ToString(), drawFont, drawBrush, 10 + j * 40, 30);
 
             ////рисуем название и информационную часть кадра
             //drawBrush = new SolidBrush(Color.DarkBlue);
             //e.Graphics.DrawString("Информационная часть кадра", drawFont, drawBrush, 10, 70);
             //for (int i = 0; i < frameToShow.wordCount - frameInfoSize; i++)
             //{
-                //e.Graphics.DrawString(drawString[frameInfoSize + i].ToString(), drawFont, drawBrush, 10 + i % 32 * 40, 90 + i / 32 * 20);
+            //e.Graphics.DrawString(drawString[frameInfoSize + i].ToString(), drawFont, drawBrush, 10 + i % 32 * 40, 90 + i / 32 * 20);
             //}
 
         }

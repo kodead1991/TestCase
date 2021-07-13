@@ -13,10 +13,10 @@ namespace TestCaseWinforms
 {
     public partial class FormMain : Form
     {
-        string path;
+        public string path;
         int wordNumber;
         int frameNumber;
-        Frame frame;
+        List<Frame> frames;
         public FormMain()
         {
             InitializeComponent();
@@ -40,17 +40,20 @@ namespace TestCaseWinforms
             if (dialog.ShowDialog() == DialogResult.Cancel)
                 return;
             
-            path = dialog.FileName; // получаем путь выбранного файла
+            path = this.frameViewer.Path = dialog.FileName; // получаем путь выбранного файла
             wordNumber = FrameFile.WordCounter(new StreamReader(path));
             frameNumber = (int) new FileInfo(path).Length / (11 + wordNumber * 5);
-            Frame fr = FrameFile.Read(new StreamReader(path), wordNumber, 0);
-            return;
+            frames = new List<Frame>();
+            StreamReader sr = new StreamReader(path);
+            for (int i = 0; i < frameNumber; i++)
+            {
+                frames.Add(FrameFile.Read(sr, wordNumber, i));
+            }
 
-            //frame = new Frame(path);
-            //this.comboBoxWordFormat.Enabled = true;
-            //this.radioButtonDEC.Enabled = true;
-            //this.radioButtonHEX.Enabled = true;
-            //this.frameViewer.frameToShow = frame; //передача массива кадров в Control отоборажения кадра
+            this.comboBoxWordFormat.Enabled = true;
+            this.radioButtonDEC.Enabled = true;
+            this.radioButtonHEX.Enabled = true;
+            this.frameViewer.FrameToShow = frames[0]; //передача массива кадров в Control отоборажения кадра
             //this.trackBar1.Minimum = 1;
             //this.trackBar1.Maximum = frame.frameCount;
             //this.trackBar1.Value = 1;
@@ -87,7 +90,7 @@ namespace TestCaseWinforms
         //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения стуктуры слов кадра
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (frame == null || frame.frameArray.Length == 0)
+            if (frames == null || frames.Count == 0)
                 return;
 
             //передача типа структуры кадров в Control отоборажения кадра

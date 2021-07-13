@@ -132,7 +132,7 @@ namespace TestCaseWinforms
             // 
             // frameViewer1
             // 
-            this.frameViewer.frameToShow = null;
+            this.frameViewer.FrameToShow = null;
             this.frameViewer.Location = new System.Drawing.Point(12, 41);
             this.frameViewer.Margin = new System.Windows.Forms.Padding(4);
             this.frameViewer.MaximumSize = new System.Drawing.Size(1290, 440);
