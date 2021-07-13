@@ -13,7 +13,8 @@ namespace TestCaseWinforms
     public partial class FrameViewer : UserControl
     {
         public string[] drawString;
-        public Kadr k { get; set; }
+        public Frame frameToShow { get; set; }
+        int frameInfoSize = 31;
 
         public FrameViewer()
         {
@@ -22,48 +23,37 @@ namespace TestCaseWinforms
         }
 
         //отображение кадра в Control'е в формате HEX
-        public void displayKadrHEX(int kadrNum)
+        public void DisplayFrame(int frameNum, string numeralSystem)
         {
-            if (k == null || k.kadr.Length == 0)
+            if (frameToShow == null || frameToShow.frameArray.Length == 0)
                 return;
 
-            drawString = new string[k.wordCount];
+            drawString = new string[frameToShow.wordCount];
 
-            for (int i = 0; i < 31; i++)
+            for (int i = 0; i < frameInfoSize; i++)
             {
-                drawString[i] = (Convert.ToInt32(k.kadr[kadrNum, i], 16) & 0x3FF).ToString("X4"); //дополняем нулями до 4-х знаков в HEX'e (0000 to FFFF)
+                drawString[i] = (frameToShow.frameArray[frameNum, i] & 0x3FF).ToString("X4"); //дополняем нулями до 4-х знаков в HEX'e (0000 to FFFF)
             }
-            for (int i = 31; i < k.wordCount; i++)
+            for (int i = frameInfoSize; i < frameToShow.wordCount; i++)
             {
-                if (k.kadrType == "(0111111110) БИТС-М")
-                    drawString[i] = ((Convert.ToInt32(k.kadr[kadrNum, i], 16) & 0x1FE) >> 1).ToString("X2"); //дополняем нулями до 2-х знаков в HEX'e (00 to FF)
-                else if (k.kadrType == "(0111001110) VITS-M")
-                    drawString[i] = ((Convert.ToInt32(k.kadr[kadrNum, i], 16) & 0x1CE) >> 1).ToString("X2"); //дополняем нулями до 2-х знаков в HEX'e (00 to FF)
+                if (frameToShow.frameType == FrameType.BITSM)
+                {
+                    if (numeralSystem == "DEC")
+                        drawString[i] = ((frameToShow.frameArray[frameNum, i] & (int)FrameType.BITSM) >> 1).ToString("D3");
+                    else if (numeralSystem == "HEX")
+                        drawString[i] = ((frameToShow.frameArray[frameNum, i] & (int)FrameType.BITSM) >> 1).ToString("X2");
+                }
+                else if (frameToShow.frameType == FrameType.VITSM)
+                {
+                    if (numeralSystem == "DEC")
+                        drawString[i] = ((frameToShow.frameArray[frameNum, i] & (int)FrameType.VITSM) >> 1).ToString("D3");
+                    else if (numeralSystem == "HEX")
+                        drawString[i] = ((frameToShow.frameArray[frameNum, i] & (int)FrameType.VITSM) >> 1).ToString("X2");
+                }
             }
             this.Invalidate();
         }
 
-        //отображение кадра в Control'е в формате DEC
-        public void displayKadrDEC(int kadrNum)
-        {
-            if (k == null || k.kadr.Length == 0)
-                return;
-
-            drawString = new string[k.wordCount];
-
-            for (int i = 0; i < 31; i++)
-            {
-                drawString[i] = (Convert.ToInt32(k.kadr[kadrNum, i], 16) & 0x3FF).ToString("X4"); //дополняем нулями до 4-х знаков в HEX'e (0000 to FFFF)
-            }
-            for (int i = 31; i < k.wordCount; i++)
-            {
-                if (k.kadrType == "(0111111110) БИТС-М")
-                    drawString[i] = ((Convert.ToInt32(k.kadr[kadrNum, i], 16) & 0x1FE) >> 1).ToString("D3"); //дополняем нулями до 2-х знаков в HEX'e (00 to FF)
-                else if (k.kadrType == "(0111001110) VITS-M")
-                    drawString[i] = ((Convert.ToInt32(k.kadr[kadrNum, i], 16) & 0x1CE) >> 1).ToString("D3"); //дополняем нулями до 2-х знаков в HEX'e (00 to FF)
-            }
-            this.Invalidate();
-        }
         private void FrameViewer_Paint(object sender, PaintEventArgs e)
         {
             if (drawString == null || drawString.Length == 0)
@@ -73,16 +63,16 @@ namespace TestCaseWinforms
             Font drawFont = new Font("Courier New", 10);
             SolidBrush drawBrush = new SolidBrush(Color.DarkMagenta);
 
-            e.Graphics.DrawString("Служебная часть кадра", drawFont, drawBrush, 10, 10);
-            for (int j = 0; j < 31; j++)
+            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + frameToShow.path, drawFont, drawBrush, 10, 10);
+            for (int j = 0; j < frameInfoSize; j++)
                 e.Graphics.DrawString(drawString[j].ToString(), drawFont, drawBrush, 10 + j * 40, 30);
 
             //рисуем название и информационную часть кадра
             drawBrush = new SolidBrush(Color.DarkBlue);
             e.Graphics.DrawString("Информационная часть кадра", drawFont, drawBrush, 10, 70);
-            for (int i = 0; i < k.wordCount - 31; i++)
+            for (int i = 0; i < frameToShow.wordCount - frameInfoSize; i++)
             {
-                e.Graphics.DrawString(drawString[31 + i].ToString(), drawFont, drawBrush, 10 + i % 32 * 40, 90 + i / 32 * 20);
+                e.Graphics.DrawString(drawString[frameInfoSize + i].ToString(), drawFont, drawBrush, 10 + i % 32 * 40, 90 + i / 32 * 20);
             }
 
         }
