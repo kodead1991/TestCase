@@ -39,52 +39,42 @@ namespace TestCaseWinforms
             dialog.Filter = "Файл кадра(*.kdr)|*.kdr|All files(*.*)|*.*";
             if (dialog.ShowDialog() == DialogResult.Cancel)
                 return;
-            
+
             path = this.frameViewer.Path = dialog.FileName; // получаем путь выбранного файла
             wordNumber = FrameFile.WordCounter(new StreamReader(path));
-            frameNumber = (int) new FileInfo(path).Length / (11 + wordNumber * 5);
+            frameNumber = (int)new FileInfo(path).Length / (11 + wordNumber * 5);
             frames = new List<Frame>();
             StreamReader sr = new StreamReader(path);
-            for (int i = 0; i < frameNumber; i++)
-            {
-                frames.Add(FrameFile.Read(sr, wordNumber, i));
-            }
-
+            //for (int i = 0; i < frameNumber; i++)
+            //{
+            //    frames.Add(FrameFile.Read(sr, wordNumber, i));
+            //}
+            frames = FrameFile.Read(path);
             this.comboBoxWordFormat.Enabled = true;
             this.radioButtonDEC.Enabled = true;
             this.radioButtonHEX.Enabled = true;
             this.frameViewer.FrameToShow = frames[0]; //передача массива кадров в Control отоборажения кадра
-            //this.trackBar1.Minimum = 1;
-            //this.trackBar1.Maximum = frame.frameCount;
-            //this.trackBar1.Value = 1;
-            //this.frameViewer.DisplayFrame(this.trackBar1.Value, "HEX"); //отображение первого кадра после загрузки
-            //List<Frame> frameList = new List<Frame>();
-            //for (int i = 0; i < length; i++)
-            //{
-            //    frameList.Add()
-
-            //}
+            this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
+            this.frameViewer.Radix = "X3";
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Maximum = frames.Count;
+            this.trackBar1.Value = 1;
         }
-
 
         //отображение выбранного кадра через изменение ползунка
         private void TrackBar1_ValueChanged(object sender, EventArgs e)
         {
-            //if (this.radioButtonHEX.Checked == true)
-            //    this.frameViewer.DisplayFrame(trackBar1.Value - 1, "HEX");
-            //else
-            //    this.frameViewer.DisplayFrame(trackBar1.Value - 1, "DEC");
-
-            //this.kadrNumber.Text = this.trackBar1.Value.ToString();
+            this.frameViewer.FrameToShow = frames[this.trackBar1.Value - 1]; //передача массива кадров в Control отоборажения кадра
+            this.kadrNumber.Text = this.trackBar1.Value.ToString();
         }
 
         //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения формата отображения
         private void RadioButtonHEX_CheckedChanged(object sender, EventArgs e)
         {
-            //if (this.radioButtonHEX.Checked == true)
-            //    this.frameViewer.DisplayFrame(trackBar1.Value - 1, "HEX");
-            //else
-            //    this.frameViewer.DisplayFrame(trackBar1.Value - 1, "DEC");
+            if (this.radioButtonHEX.Checked == true)
+                this.frameViewer.Radix = "X3";
+            else
+                this.frameViewer.Radix = "D3";
         }
 
         //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения стуктуры слов кадра
@@ -94,20 +84,7 @@ namespace TestCaseWinforms
                 return;
 
             //передача типа структуры кадров в Control отоборажения кадра
-            switch (this.comboBoxWordFormat.SelectedIndex)
-            {
-                //case 0:
-                //    this.frameViewer.frameToShow.frameType = frame.frameType = FrameType.BITSM; break;
-                //case 1:
-                //    this.frameViewer.frameToShow.frameType = frame.frameType = FrameType.VITSM; break;
-                //default:
-                //    break;
-            }
-
-            //if (this.radioButtonHEX.Checked == true)
-            //    this.frameViewer.DisplayFrame(trackBar1.Value - 1, "HEX");
-            //else
-            //    this.frameViewer.DisplayFrame(trackBar1.Value - 1, "DEC");
+            this.frameViewer.Param = (FrameViewInfo) this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
         }
     }
 }

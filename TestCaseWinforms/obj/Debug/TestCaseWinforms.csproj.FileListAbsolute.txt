@@ -15,8 +15,8 @@ C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csproj.GenerateRe
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csproj.CoreCompileInputs.cache
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.exe
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.pdb
-C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FrameViewInfo.resources
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FormMain.resources
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.csproj.AssemblyReference.cache
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FormMain.resources
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FrameViewer.resources
+C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FrameViewer.resources

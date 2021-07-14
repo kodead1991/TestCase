@@ -14,6 +14,9 @@ namespace TestCaseWinforms
     {
         Frame _frameToShow;
         string _path;
+        FrameViewInfo _param;
+        string _radix;
+
         public Frame FrameToShow
         {
             get { return _frameToShow; }
@@ -24,6 +27,16 @@ namespace TestCaseWinforms
             get { return _path; }
             set { _path = value; }
         }
+        public FrameViewInfo Param
+        {
+            get { return _param; }
+            set { _param = value; Invalidate(); }
+        }
+        public string Radix
+        {
+            get { return _radix; }
+            set { _radix = value; Invalidate(); }
+        }
         int frameInfoSize = 31;
 
         public FrameViewer()
@@ -31,38 +44,6 @@ namespace TestCaseWinforms
             InitializeComponent();
             this.DoubleBuffered = true; //чтобы быстрее отрисовывалось в Control'е
         }
-
-        //отображение кадра в Control'е в формате HEX
-        //public void DisplayFrame(int frameNum, string numeralSystem)
-        //{
-        //    if (frameToShow == null || frameToShow.frameArray.Length == 0)
-        //        return;
-
-        //    drawString = new string[frameToShow.wordCount];
-
-        //    for (int i = 0; i < frameInfoSize; i++)
-        //    {
-        //        drawString[i] = (frameToShow.frameArray[frameNum, i] & 0x3FF).ToString("X4"); //дополняем нулями до 4-х знаков в HEX'e (0000 to FFFF)
-        //    }
-        //    for (int i = frameInfoSize; i < frameToShow.wordCount; i++)
-        //    {
-        //        if (frameToShow.frameType == FrameType.BITSM)
-        //        {
-        //            if (numeralSystem == "DEC")
-        //                drawString[i] = ((frameToShow.frameArray[frameNum, i] & (int)FrameType.BITSM) >> 1).ToString("D3");
-        //            else if (numeralSystem == "HEX")
-        //                drawString[i] = ((frameToShow.frameArray[frameNum, i] & (int)FrameType.BITSM) >> 1).ToString("X2");
-        //        }
-        //        else if (frameToShow.frameType == FrameType.VITSM)
-        //        {
-        //            if (numeralSystem == "DEC")
-        //                drawString[i] = ((frameToShow.frameArray[frameNum, i] & (int)FrameType.VITSM) >> 1).ToString("D3");
-        //            else if (numeralSystem == "HEX")
-        //                drawString[i] = ((frameToShow.frameArray[frameNum, i] & (int)FrameType.VITSM) >> 1).ToString("X2");
-        //        }
-        //    }
-        //    this.Invalidate();
-        //}
 
         private void FrameViewer_Paint(object sender, PaintEventArgs e)
         {
@@ -75,16 +56,15 @@ namespace TestCaseWinforms
 
             e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path, drawFont, drawBrush, 10, 10);
             for (int j = 0; j < frameInfoSize; j++)
-                e.Graphics.DrawString(FrameToShow.frameArray[j].ToString(), drawFont, drawBrush, 10 + j * 40, 30);
+                e.Graphics.DrawString((FrameToShow.frameArray[j] & _param.Mask >> _param.Offset).ToString(_radix), drawFont, drawBrush, 10 + j * 40, 30);
 
-            ////рисуем название и информационную часть кадра
-            //drawBrush = new SolidBrush(Color.DarkBlue);
-            //e.Graphics.DrawString("Информационная часть кадра", drawFont, drawBrush, 10, 70);
-            //for (int i = 0; i < frameToShow.wordCount - frameInfoSize; i++)
-            //{
-            //e.Graphics.DrawString(drawString[frameInfoSize + i].ToString(), drawFont, drawBrush, 10 + i % 32 * 40, 90 + i / 32 * 20);
-            //}
-
+            //рисуем название и информационную часть кадра
+            drawBrush = new SolidBrush(Color.DarkBlue);
+            e.Graphics.DrawString("Информационная часть кадра", drawFont, drawBrush, 10, 70);
+            for (int i = 0; i < FrameToShow.Length - frameInfoSize; i++)
+            {
+                e.Graphics.DrawString((FrameToShow.frameArray[frameInfoSize + i] & _param.Mask >> _param.Offset).ToString(_radix), drawFont, drawBrush, 10 + i % 32 * 40, 90 + i / 32 * 20);
+            }
         }
     }
 }
