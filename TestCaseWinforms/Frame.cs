@@ -16,13 +16,12 @@ namespace TestCaseWinforms
         int _length = 0;
         public int Length
         {
-            get { return _length; }
+            get { return (frameArray.Length == null) ? 0 : frameArray.Length; }
         }
 
         public Frame(int size)
         {
             frameArray = new ushort[size];
-            _length = size;
         }
     }
 }

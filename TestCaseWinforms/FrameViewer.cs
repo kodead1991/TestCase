@@ -14,8 +14,16 @@ namespace TestCaseWinforms
     {
         Frame _frameToShow;
         string _path;
+        Font _drawFont = new Font("Courier New", 10);
+        SolidBrush _drawBrushService = new SolidBrush(Color.DarkMagenta);
+        SolidBrush _drawBrushData = new SolidBrush(Color.DarkBlue);
         FrameViewInfo _param;
         string _radix;
+        Size _size = new Size(40, 20);
+        Point _offsetServiceStart = new Point(10, 10);
+        Point _offsetDataStart = new Point(10, 70);
+        Point _offsetService = new Point(10, 30);
+        Point _offsetData = new Point(10, 90);
 
         public Frame FrameToShow
         {
@@ -50,20 +58,40 @@ namespace TestCaseWinforms
             if (FrameToShow == null || FrameToShow.Length == 0)
                 return;
 
-            //рисуем название и служебную часть кадра
-            Font drawFont = new Font("Courier New", 10);
-            SolidBrush drawBrush = new SolidBrush(Color.DarkMagenta);
+            //рисуем служебную часть кадра
+            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path,
+                _drawFont,
+                _drawBrushService,
+                _offsetServiceStart.X,
+                _offsetServiceStart.Y);
 
-            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path, drawFont, drawBrush, 10, 10);
-            for (int j = 0; j < frameInfoSize; j++)
-                e.Graphics.DrawString((FrameToShow.frameArray[j] & _param.Mask >> _param.Offset).ToString(_radix), drawFont, drawBrush, 10 + j * 40, 30);
+            for (int i = 0; i < frameInfoSize; i++)
+            {
+                e.Graphics.DrawString(FrameToShow.frameArray[i]
+                    .ToString("X3"),
+                    _drawFont,
+                    _drawBrushService,
+                    _offsetService.X + i * _size.Width,
+                    _offsetService.Y + _size.Height);
+            }
 
-            //рисуем название и информационную часть кадра
-            drawBrush = new SolidBrush(Color.DarkBlue);
-            e.Graphics.DrawString("Информационная часть кадра", drawFont, drawBrush, 10, 70);
+            //рисуем информационную часть кадра
+            e.Graphics.DrawString("Информационная часть кадра",
+                _drawFont,
+                _drawBrushData,
+                _offsetDataStart.X,
+                _offsetDataStart.Y);
+
             for (int i = 0; i < FrameToShow.Length - frameInfoSize; i++)
             {
-                e.Graphics.DrawString((FrameToShow.frameArray[frameInfoSize + i] & _param.Mask >> _param.Offset).ToString(_radix), drawFont, drawBrush, 10 + i % 32 * 40, 90 + i / 32 * 20);
+                var row = Math.DivRem(i, 32, out var column);
+
+                e.Graphics.DrawString((_param.GetWord(FrameToShow.frameArray[frameInfoSize + i]))
+                    .ToString(_radix),
+                    _drawFont,
+                    _drawBrushService,
+                    _offsetData.X + column * _size.Width,
+                    _offsetData.Y + row * _size.Height);
             }
         }
     }

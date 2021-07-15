@@ -37,5 +37,10 @@ namespace TestCaseWinforms
         {
             return Name;
         }
+
+        public ushort GetWord(ushort word)
+        {
+            return (ushort)((word & _mask) >> _offset);
+        }
     }
 }
