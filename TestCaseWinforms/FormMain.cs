@@ -86,5 +86,10 @@ namespace TestCaseWinforms
             //передача типа структуры кадров в Control отоборажения кадра
             this.frameViewer.Param = (FrameViewInfo) this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
         }
+
+        private void frameViewer_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.frameViewer.MousePos =  e.Location;
+        }
     }
 }

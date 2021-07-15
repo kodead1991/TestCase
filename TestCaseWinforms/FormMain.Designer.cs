@@ -43,20 +43,21 @@ namespace TestCaseWinforms
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(10, 515);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(2);
+            this.trackBar1.Location = new System.Drawing.Point(13, 634);
+            this.trackBar1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(1258, 45);
+            this.trackBar1.Size = new System.Drawing.Size(1677, 56);
             this.trackBar1.TabIndex = 1;
             this.trackBar1.Value = 1;
             this.trackBar1.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
             // 
             // openFile
             // 
-            this.openFile.Location = new System.Drawing.Point(12, 11);
+            this.openFile.Location = new System.Drawing.Point(16, 14);
+            this.openFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.openFile.Name = "openFile";
-            this.openFile.Size = new System.Drawing.Size(75, 23);
+            this.openFile.Size = new System.Drawing.Size(100, 28);
             this.openFile.TabIndex = 2;
             this.openFile.Text = "Открыть";
             this.openFile.UseVisualStyleBackColor = true;
@@ -65,9 +66,10 @@ namespace TestCaseWinforms
             // kadrNumber
             // 
             this.kadrNumber.Font = new System.Drawing.Font("Courier New", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.kadrNumber.Location = new System.Drawing.Point(1274, 524);
+            this.kadrNumber.Location = new System.Drawing.Point(1699, 645);
+            this.kadrNumber.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.kadrNumber.Name = "kadrNumber";
-            this.kadrNumber.Size = new System.Drawing.Size(69, 24);
+            this.kadrNumber.Size = new System.Drawing.Size(92, 30);
             this.kadrNumber.TabIndex = 3;
             this.kadrNumber.Text = "1";
             this.kadrNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -75,9 +77,10 @@ namespace TestCaseWinforms
             // kadrName
             // 
             this.kadrName.Font = new System.Drawing.Font("Courier New", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.kadrName.Location = new System.Drawing.Point(1268, 498);
+            this.kadrName.Location = new System.Drawing.Point(1691, 613);
+            this.kadrName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.kadrName.Name = "kadrName";
-            this.kadrName.Size = new System.Drawing.Size(74, 26);
+            this.kadrName.Size = new System.Drawing.Size(99, 32);
             this.kadrName.TabIndex = 4;
             this.kadrName.Text = "КАДР";
             this.kadrName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -86,9 +89,10 @@ namespace TestCaseWinforms
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(178, 489);
+            this.label1.Location = new System.Drawing.Point(237, 602);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(188, 18);
+            this.label1.Size = new System.Drawing.Size(226, 22);
             this.label1.TabIndex = 6;
             this.label1.Text = "Формат слов данных";
             // 
@@ -97,9 +101,10 @@ namespace TestCaseWinforms
             this.radioButtonHEX.AutoSize = true;
             this.radioButtonHEX.Checked = true;
             this.radioButtonHEX.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.radioButtonHEX.Location = new System.Drawing.Point(372, 487);
+            this.radioButtonHEX.Location = new System.Drawing.Point(496, 599);
+            this.radioButtonHEX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonHEX.Name = "radioButtonHEX";
-            this.radioButtonHEX.Size = new System.Drawing.Size(56, 22);
+            this.radioButtonHEX.Size = new System.Drawing.Size(67, 26);
             this.radioButtonHEX.TabIndex = 7;
             this.radioButtonHEX.TabStop = true;
             this.radioButtonHEX.Text = "HEX";
@@ -110,42 +115,48 @@ namespace TestCaseWinforms
             // 
             this.radioButtonDEC.AutoSize = true;
             this.radioButtonDEC.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.radioButtonDEC.Location = new System.Drawing.Point(434, 487);
+            this.radioButtonDEC.Location = new System.Drawing.Point(579, 599);
+            this.radioButtonDEC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioButtonDEC.Name = "radioButtonDEC";
-            this.radioButtonDEC.Size = new System.Drawing.Size(56, 22);
+            this.radioButtonDEC.Size = new System.Drawing.Size(67, 26);
             this.radioButtonDEC.TabIndex = 8;
             this.radioButtonDEC.Text = "DEC";
             this.radioButtonDEC.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // comboBoxWordFormat
             // 
             this.comboBoxWordFormat.DisplayMember = "1";
             this.comboBoxWordFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxWordFormat.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.comboBoxWordFormat.Location = new System.Drawing.Point(496, 487);
-            this.comboBoxWordFormat.Name = "comboBox1";
-            this.comboBoxWordFormat.Size = new System.Drawing.Size(233, 26);
+            this.comboBoxWordFormat.Location = new System.Drawing.Point(661, 599);
+            this.comboBoxWordFormat.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBoxWordFormat.Name = "comboBoxWordFormat";
+            this.comboBoxWordFormat.Size = new System.Drawing.Size(309, 30);
             this.comboBoxWordFormat.Sorted = true;
             this.comboBoxWordFormat.TabIndex = 9;
             this.comboBoxWordFormat.ValueMember = "1";
             this.comboBoxWordFormat.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
-            // frameViewer1
+            // frameViewer
             // 
             this.frameViewer.FrameToShow = null;
-            this.frameViewer.Location = new System.Drawing.Point(12, 41);
-            this.frameViewer.Margin = new System.Windows.Forms.Padding(4);
-            this.frameViewer.MaximumSize = new System.Drawing.Size(1290, 440);
-            this.frameViewer.MinimumSize = new System.Drawing.Size(1290, 440);
-            this.frameViewer.Name = "frameViewer1";
-            this.frameViewer.Size = new System.Drawing.Size(1290, 440);
+            this.frameViewer.Location = new System.Drawing.Point(16, 50);
+            this.frameViewer.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.frameViewer.MaximumSize = new System.Drawing.Size(1720, 542);
+            this.frameViewer.MinimumSize = new System.Drawing.Size(1720, 542);
+            this.frameViewer.Name = "frameViewer";
+            this.frameViewer.Param = null;
+            this.frameViewer.Path = null;
+            this.frameViewer.Radix = null;
+            this.frameViewer.Size = new System.Drawing.Size(1720, 542);
             this.frameViewer.TabIndex = 5;
+            this.frameViewer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.frameViewer_MouseClick);
             // 
-            // Form1
+            // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1344, 570);
+            this.ClientSize = new System.Drawing.Size(1792, 702);
             this.Controls.Add(this.comboBoxWordFormat);
             this.Controls.Add(this.radioButtonDEC);
             this.Controls.Add(this.radioButtonHEX);
@@ -155,8 +166,8 @@ namespace TestCaseWinforms
             this.Controls.Add(this.kadrNumber);
             this.Controls.Add(this.openFile);
             this.Controls.Add(this.trackBar1);
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form1";
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Name = "FormMain";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
