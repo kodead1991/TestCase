@@ -41,7 +41,7 @@ namespace TestCaseWinforms
             ((System.ComponentModel.ISupportInitialize)(this.frameTrackBar)).BeginInit();
             this.SuspendLayout();
             // 
-            // trackBar1
+            // frameTrackBar
             // 
             this.frameTrackBar.Location = new System.Drawing.Point(13, 634);
             this.frameTrackBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -52,7 +52,7 @@ namespace TestCaseWinforms
             this.frameTrackBar.Value = 1;
             this.frameTrackBar.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
             // 
-            // openFile
+            // openFileButton
             // 
             this.openFileButton.Location = new System.Drawing.Point(16, 14);
             this.openFileButton.Margin = new System.Windows.Forms.Padding(4);
@@ -63,7 +63,7 @@ namespace TestCaseWinforms
             this.openFileButton.UseVisualStyleBackColor = true;
             this.openFileButton.Click += new System.EventHandler(this.OpenFile_click);
             // 
-            // kadrNumber
+            // currentFrameNumber
             // 
             this.currentFrameNumber.Font = new System.Drawing.Font("Courier New", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.currentFrameNumber.Location = new System.Drawing.Point(1699, 645);
@@ -74,7 +74,7 @@ namespace TestCaseWinforms
             this.currentFrameNumber.Text = "1";
             this.currentFrameNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // kadrName
+            // frameLabel
             // 
             this.frameLabel.Font = new System.Drawing.Font("Courier New", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.frameLabel.Location = new System.Drawing.Point(1691, 613);
@@ -85,13 +85,13 @@ namespace TestCaseWinforms
             this.frameLabel.Text = "КАДР";
             this.frameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label1
+            // wordFormatText
             // 
             this.wordFormatText.AutoSize = true;
             this.wordFormatText.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.wordFormatText.Location = new System.Drawing.Point(237, 602);
             this.wordFormatText.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.wordFormatText.Name = "label1";
+            this.wordFormatText.Name = "wordFormatText";
             this.wordFormatText.Size = new System.Drawing.Size(226, 22);
             this.wordFormatText.TabIndex = 6;
             this.wordFormatText.Text = "Формат слов данных";
@@ -140,21 +140,18 @@ namespace TestCaseWinforms
             // frameViewer
             // 
             this.frameViewer.FrameToShow = null;
-            //this.frameViewer.KeyPos = new System.Drawing.Point(0, 0);
             this.frameViewer.Location = new System.Drawing.Point(16, 50);
             this.frameViewer.Margin = new System.Windows.Forms.Padding(5);
             this.frameViewer.MaximumSize = new System.Drawing.Size(1720, 542);
             this.frameViewer.MinimumSize = new System.Drawing.Size(1720, 542);
-            this.frameViewer.MousePos = new System.Drawing.Point(0, 0);
+            this.frameViewer.MousePos = new System.Drawing.Point(7, 27);
             this.frameViewer.Name = "frameViewer";
             this.frameViewer.Param = null;
             this.frameViewer.Path = null;
             this.frameViewer.Radix = null;
             this.frameViewer.Size = new System.Drawing.Size(1720, 542);
             this.frameViewer.TabIndex = 5;
-            this.frameViewer.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frameViewer_KeyDown);
             this.frameViewer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.frameViewer_MouseClick);
-            this.frameViewer.Focus();
             // 
             // FormMain
             // 

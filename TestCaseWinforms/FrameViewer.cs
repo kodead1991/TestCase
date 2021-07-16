@@ -43,18 +43,33 @@ namespace TestCaseWinforms
         public FrameViewInfo Param
         {
             get { return _param; }
-            set { _param = value; Invalidate(); }
+            set
+            {
+                if (FrameToShow == null || FrameToShow.Length == 0)
+                    return;
+                _param = value; 
+                Invalidate();
+            }
         }
         public string Radix
         {
             get { return _radix; }
-            set { _radix = value; Invalidate(); }
+            set
+            {
+                if (FrameToShow == null || FrameToShow.Length == 0)
+                    return;
+                _radix = value; 
+                Invalidate();
+            }
         }
         public Point MousePos
         {
             get { return _cellPos; }
             set
             {
+                if (FrameToShow == null || FrameToShow.Length == 0)
+                    return;
+
                 if ((value.X >= _offsetService.X - _cellPosShift
                     && value.X < _offsetService.X - _cellPosShift + _cellSize.Width * _wordsServiceCount
                     && value.Y >= _offsetService.Y - _cellPosShift
@@ -75,7 +90,10 @@ namespace TestCaseWinforms
         {
             set
             {
-                if(value == Keys.Up)
+                if (FrameToShow == null || FrameToShow.Length == 0)
+                    return;
+
+                if (value == Keys.Up)
                     _cellPos.Y -= _cellSize.Height;
                 if (value == Keys.Down)
                     _cellPos.Y += _cellSize.Height;
@@ -83,6 +101,7 @@ namespace TestCaseWinforms
                     _cellPos.Y -= _cellSize.Width;
                 if (value == Keys.Right)
                     _cellPos.Y += _cellSize.Width;
+
                 Invalidate();
             }
         }
@@ -140,6 +159,11 @@ namespace TestCaseWinforms
 
             //рисуем прямоугольник выделения
             e.Graphics.DrawRectangle(_myPen, new Rectangle(_cellPos, _cellSize));
+        }
+
+        private void FrameViewer_KeyDown(object sender, KeyEventArgs e)
+        {
+            this.KeyPos = e.KeyCode;
         }
     }
 }

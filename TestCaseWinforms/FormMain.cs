@@ -94,10 +94,5 @@ namespace TestCaseWinforms
         {
             this.frameViewer.MousePos = e.Location;
         }
-
-        private void frameViewer_KeyDown(object sender, KeyEventArgs e)
-        {
-            this.frameViewer.KeyPos = e.KeyCode;
-        }
     }
 }
