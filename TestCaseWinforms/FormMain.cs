@@ -56,16 +56,19 @@ namespace TestCaseWinforms
             this.frameViewer.FrameToShow = frames[0]; //передача массива кадров в Control отоборажения кадра
             this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
             this.frameViewer.Radix = "X3";
-            this.trackBar1.Minimum = 1;
-            this.trackBar1.Maximum = frames.Count;
-            this.trackBar1.Value = 1;
+            this.frameTrackBar.Minimum = 1;
+            this.frameTrackBar.Maximum = frames.Count;
+            this.frameTrackBar.Value = 1;
         }
 
         //отображение выбранного кадра через изменение ползунка
         private void TrackBar1_ValueChanged(object sender, EventArgs e)
         {
-            this.frameViewer.FrameToShow = frames[this.trackBar1.Value - 1]; //передача массива кадров в Control отоборажения кадра
-            this.kadrNumber.Text = this.trackBar1.Value.ToString();
+            this.currentFrameNumber.Text = this.frameTrackBar.Value.ToString();
+            if (frames == null || frames.Count == 0)
+                return;
+            this.frameViewer.FrameToShow = frames[this.frameTrackBar.Value - 1]; //передача массива кадров в Control отоборажения кадра
+            
         }
 
         //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения формата отображения
@@ -84,12 +87,17 @@ namespace TestCaseWinforms
                 return;
 
             //передача типа структуры кадров в Control отоборажения кадра
-            this.frameViewer.Param = (FrameViewInfo) this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
+            this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
         }
 
         private void frameViewer_MouseClick(object sender, MouseEventArgs e)
         {
-            this.frameViewer.MousePos =  e.Location;
+            this.frameViewer.MousePos = e.Location;
+        }
+
+        private void frameViewer_KeyDown(object sender, KeyEventArgs e)
+        {
+            this.frameViewer.KeyPos = e.KeyCode;
         }
     }
 }
