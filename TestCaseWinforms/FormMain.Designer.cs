@@ -171,6 +171,7 @@ namespace TestCaseWinforms
             this.Name = "FormMain";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormMain_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.frameTrackBar)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

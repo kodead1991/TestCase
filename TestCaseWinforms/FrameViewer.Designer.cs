@@ -38,7 +38,6 @@
             this.Name = "FrameViewer";
             this.Size = new System.Drawing.Size(1287, 758);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrameViewer_Paint);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrameViewer_KeyDown);
             this.ResumeLayout(false);
 
         }

@@ -14,21 +14,21 @@ namespace TestCaseWinforms
     {
         Frame _frameToShow;
         string _path;
-        int _wordsServiceCount = 31;
-        int _frameRowNumber = 32;
-        const int _cellPosShift = 3;
+        static int _wordsServiceCount = 31;
+        static int _frameRowNumber = 32;
+        static int _cellPosShift = 3;
         Font _drawFont = new Font("Courier New", 10);
         SolidBrush _drawBrushService = new SolidBrush(Color.DarkMagenta);
         SolidBrush _drawBrushData = new SolidBrush(Color.DarkBlue);
         FrameViewInfo _param;
         string _radix;
-        Size _cellSize = new Size(40, 20);
-        Point _offsetServiceStart = new Point(10, 10);
-        Point _offsetDataStart = new Point(10, 70);
-        Point _offsetService = new Point(10, 30);
-        Point _offsetData = new Point(10, 90);
+        static Size _cellSize = new Size(40, 20);
+        static Point _offsetServiceStart = new Point(10, 10);
+        static Point _offsetDataStart = new Point(10, 70);
+        static Point _offsetService = new Point(10, 30);
+        static Point _offsetData = new Point(10, 90);
         Pen _myPen = new Pen(Brushes.DeepSkyBlue);
-        Point _cellPos = new Point(10 - _cellPosShift, 30 - _cellPosShift);
+        Point _cellPos = new Point(_offsetService.X - _cellPosShift, _offsetService.Y - _cellPosShift);
 
         public Frame FrameToShow
         {
@@ -47,7 +47,7 @@ namespace TestCaseWinforms
             {
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
-                _param = value; 
+                _param = value;
                 Invalidate();
             }
         }
@@ -58,7 +58,7 @@ namespace TestCaseWinforms
             {
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
-                _radix = value; 
+                _radix = value;
                 Invalidate();
             }
         }
@@ -93,14 +93,23 @@ namespace TestCaseWinforms
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
 
-                if (value == Keys.Up)
-                    _cellPos.Y -= _cellSize.Height;
-                if (value == Keys.Down)
-                    _cellPos.Y += _cellSize.Height;
-                if (value == Keys.Left)
-                    _cellPos.Y -= _cellSize.Width;
-                if (value == Keys.Right)
-                    _cellPos.Y += _cellSize.Width;
+                if (value == Keys.Up && _cellPos.Y >= _offsetService.Y - _cellPosShift + _cellSize.Height)
+                    if (_cellPos.Y == _offsetData.Y - _cellPosShift)
+                        _cellPos.Y -= _cellSize.Height * 3;
+                    else
+                        _cellPos.Y -= _cellSize.Height;
+
+                if (value == Keys.Down && _cellPos.Y < _offsetData.Y - _cellPosShift + _cellSize.Height * (_frameToShow.Length / _frameRowNumber - 1))
+                    if (_cellPos.Y == _offsetService.Y - _cellPosShift)
+                        _cellPos.Y += _cellSize.Height * 3;
+                    else
+                        _cellPos.Y += _cellSize.Height;
+
+                if (value == Keys.Left && _cellPos.X >= _offsetData.X - _cellPosShift + _cellSize.Width)
+                    _cellPos.X -= _cellSize.Width;
+
+                if (value == Keys.Right && _cellPos.X < _offsetData.X - _cellPosShift + _cellSize.Width * (_frameRowNumber - 1))
+                    _cellPos.X += _cellSize.Width;
 
                 Invalidate();
             }
@@ -159,11 +168,6 @@ namespace TestCaseWinforms
 
             //рисуем прямоугольник выделения
             e.Graphics.DrawRectangle(_myPen, new Rectangle(_cellPos, _cellSize));
-        }
-
-        private void FrameViewer_KeyDown(object sender, KeyEventArgs e)
-        {
-            this.KeyPos = e.KeyCode;
         }
     }
 }

@@ -30,6 +30,11 @@ namespace TestCaseWinforms
             this.radioButtonDEC.Enabled = false;
             this.radioButtonHEX.Enabled = false;
 
+            foreach (var item in Controls.OfType<UserControl>())
+            {
+                item.PreviewKeyDown += controls_PreviewKeyDown;
+            }
+
         }
 
         //открытие файла с кадром
@@ -93,6 +98,28 @@ namespace TestCaseWinforms
         private void frameViewer_MouseClick(object sender, MouseEventArgs e)
         {
             this.frameViewer.MousePos = e.Location;
+        }
+
+        private void FormMain_KeyUp(object sender, KeyEventArgs e)
+        {
+            this.frameViewer.KeyPos = e.KeyCode;
+        }
+
+
+        private void controls_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                    e.IsInputKey = true;
+                    this.frameViewer.KeyPos = e.KeyCode;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
