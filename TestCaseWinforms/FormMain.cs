@@ -29,12 +29,6 @@ namespace TestCaseWinforms
             this.comboBoxWordFormat.Enabled = false;
             this.radioButtonDEC.Enabled = false;
             this.radioButtonHEX.Enabled = false;
-
-            foreach (var item in Controls.OfType<UserControl>())
-            {
-                item.PreviewKeyDown += controls_PreviewKeyDown;
-            }
-
         }
 
         //открытие файла с кадром
@@ -73,7 +67,7 @@ namespace TestCaseWinforms
             if (frames == null || frames.Count == 0)
                 return;
             this.frameViewer.FrameToShow = frames[this.frameTrackBar.Value - 1]; //передача массива кадров в Control отоборажения кадра
-            
+
         }
 
         //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения формата отображения
@@ -94,17 +88,10 @@ namespace TestCaseWinforms
             //передача типа структуры кадров в Control отоборажения кадра
             this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
         }
-
         private void frameViewer_MouseClick(object sender, MouseEventArgs e)
         {
             this.frameViewer.MousePos = e.Location;
         }
-
-        private void FormMain_KeyUp(object sender, KeyEventArgs e)
-        {
-            this.frameViewer.KeyPos = e.KeyCode;
-        }
-
 
         private void controls_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
@@ -121,5 +108,7 @@ namespace TestCaseWinforms
                     break;
             }
         }
+
+
     }
 }
