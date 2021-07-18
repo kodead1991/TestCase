@@ -39,7 +39,7 @@ namespace TestCaseWinforms
             if (dialog.ShowDialog() == DialogResult.Cancel)
                 return;
 
-            path = this.frameViewer.Path = dialog.FileName; // получаем путь выбранного файла
+            path = this.frameViewer.Path = this.gistoViewer.Path = dialog.FileName; // получаем путь выбранного файла
             wordNumber = FrameFile.WordCounter(new StreamReader(path));
             frameNumber = (int)new FileInfo(path).Length / (11 + wordNumber * 5);
             frames = new List<Frame>();
@@ -52,21 +52,24 @@ namespace TestCaseWinforms
             this.comboBoxWordFormat.Enabled = true;
             this.radioButtonDEC.Enabled = true;
             this.radioButtonHEX.Enabled = true;
-            this.frameViewer.FrameToShow = frames[0]; //передача массива кадров в Control отоборажения кадра
-            this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
-            this.frameViewer.Radix = "X3";
+            this.frameViewer.FrameToShow = this.gistoViewer.FrameToShow = frames[0]; //передача массива кадров в Control отоборажения кадра
+            this.frameViewer.Param = this.gistoViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
+            this.frameViewer.Radix = this.gistoViewer.Radix = "X3";
             this.frameTrackBar.Minimum = 1;
             this.frameTrackBar.Maximum = frames.Count;
             this.frameTrackBar.Value = 1;
         }
 
         //отображение выбранного кадра через изменение ползунка
-        private void TrackBar1_ValueChanged(object sender, EventArgs e)
+        private void TrackBar_ValueChanged(object sender, EventArgs e)
         {
             this.currentFrameNumber.Text = this.frameTrackBar.Value.ToString();
             if (frames == null || frames.Count == 0)
                 return;
-            this.frameViewer.FrameToShow = frames[this.frameTrackBar.Value - 1]; //передача массива кадров в Control отоборажения кадра
+
+            //передача массива кадров в Control отоборажения кадра
+            this.frameViewer.FrameToShow = frames[this.frameTrackBar.Value - 1]; 
+            this.gistoViewer.FrameToShow = frames[this.frameTrackBar.Value - 1];
 
         }
 
@@ -80,7 +83,7 @@ namespace TestCaseWinforms
         }
 
         //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения стуктуры слов кадра
-        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (frames == null || frames.Count == 0)
                 return;
@@ -109,6 +112,9 @@ namespace TestCaseWinforms
             }
         }
 
-
+        private void gistoViewer_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.gistoViewer.MousePos = e.Location;
+        }
     }
 }
