@@ -17,13 +17,15 @@ namespace TestCaseWinforms
         FrameViewInfo _param;
         string _radix;
         static int _wordsServiceCount = 31;
-        int _posX = 0, _posY = 0;
+        int _posX = 0, _posY = 0, _gistOffsetX = 32, _gistOffsetY = 50;
+        Rectangle _borderRectangle = new Rectangle(28, 48, 1030, 515);
 
         Font _drawFont = new Font("Courier New", 10);
         SolidBrush _drawBrushService = new SolidBrush(Color.DarkMagenta);
         SolidBrush _drawBrushData = new SolidBrush(Color.DarkBlue);
         Pen _levelLinePen = new Pen(Brushes.DeepSkyBlue);
         Pen _dataLinePen = new Pen(Brushes.DarkBlue);
+        Pen _borderLinePen = new Pen(Brushes.Coral);
 
         public Frame FrameToShow
         {
@@ -132,6 +134,8 @@ namespace TestCaseWinforms
                 0,
                 0);
 
+            e.Graphics.DrawRectangle(_borderLinePen, _borderRectangle);
+
             if (FrameToShow == null || FrameToShow.Length == 0)
                 return;
 
@@ -139,15 +143,22 @@ namespace TestCaseWinforms
             {
                 e.Graphics.DrawLine(
                     _dataLinePen,
-                    new Point(j, 512),
-                    new Point(j, 512 - ((_frameToShow.frameArray[i] & _param.Mask) >> _param.Offset) * 2)
+                    new Point(j + _gistOffsetX, 512 + _gistOffsetY),
+                    new Point(j + _gistOffsetX, 512 + _gistOffsetY - ((_frameToShow.frameArray[i] & _param.Mask) >> _param.Offset) * 2)
                     );
             }
-            e.Graphics.DrawLine(_levelLinePen, new Point(0, 0), new Point(1710, 0));
-            e.Graphics.DrawLine(_levelLinePen, new Point(0, 128), new Point(1710, 128));
-            e.Graphics.DrawLine(_levelLinePen, new Point(0, 256), new Point(1710, 256));
-            e.Graphics.DrawLine(_levelLinePen, new Point(0, 392), new Point(1710, 392));
-            e.Graphics.DrawLine(_levelLinePen, new Point(0, 512), new Point(1710, 512));
+
+            e.Graphics.DrawString("256", _drawFont, _drawBrushService, 0, 0 + _gistOffsetY - 10);
+            e.Graphics.DrawString("192", _drawFont, _drawBrushService, 0, 128 + _gistOffsetY - 10);
+            e.Graphics.DrawString("128", _drawFont, _drawBrushService, 0, 256 + _gistOffsetY - 10);
+            e.Graphics.DrawString("64", _drawFont, _drawBrushService, 0, 392 + _gistOffsetY - 10);
+            e.Graphics.DrawString("0", _drawFont, _drawBrushService, 0, 512 + _gistOffsetY - 10);
+
+            //e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 0 + _gistOffsetY), new Point(1025 + _gistOffsetX, 0 + _gistOffsetY));
+            e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 128 + _gistOffsetY), new Point(1025 + _gistOffsetX, 128 + _gistOffsetY));
+            e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 256 + _gistOffsetY), new Point(1025 + _gistOffsetX, 256 + _gistOffsetY));
+            e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 392 + _gistOffsetY), new Point(1025 + _gistOffsetX, 392 + _gistOffsetY));
+            //e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 512 + _gistOffsetY), new Point(1025 + _gistOffsetX, 512 + _gistOffsetY));
         }
     }
 }
