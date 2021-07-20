@@ -29,10 +29,8 @@ namespace TestCaseWinforms
             this.comboBoxWordFormat.Enabled = false;
             this.radioButtonDEC.Enabled = false;
             this.radioButtonHEX.Enabled = false;
-            foreach (var item in Controls.OfType<UserControl>())
-            {
-                item.PreviewKeyDown += controls_PreviewKeyDown;
-            }
+            this.frameViewer.PreviewKeyDown += controls_PreviewKeyDown;
+            this.gistoViewer.PreviewKeyDown += controls_PreviewKeyDown;
         }
 
         //открытие файла с кадром
@@ -81,9 +79,15 @@ namespace TestCaseWinforms
         private void RadioButtonHEX_CheckedChanged(object sender, EventArgs e)
         {
             if (this.radioButtonHEX.Checked == true)
+            {
                 this.frameViewer.Radix = "X3";
+                this.gistoViewer.Radix = "X3";
+            }
             else
+            {
                 this.frameViewer.Radix = "D3";
+                this.gistoViewer.Radix = "D3";
+            }
         }
 
         //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения стуктуры слов кадра

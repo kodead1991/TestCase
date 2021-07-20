@@ -19,7 +19,11 @@ namespace TestCaseWinforms
         static int _wordsServiceCount = 31;
         int _posX = 0, _posY = 0, _gistOffsetX = 32, _gistOffsetY = 50;
         Rectangle _borderRectangle = new Rectangle(28, 48, 1030, 515);
-        int _redLinePosX;
+        int _redLinePosX = 0;
+        int _redLineValue = 0;
+        string gistoText = "";
+        int _scaleX = 2;
+        int _scaleY = 2;
 
         Font _drawFont = new Font("Courier New", 10);
         SolidBrush _drawBrushService = new SolidBrush(Color.DarkMagenta);
@@ -46,7 +50,9 @@ namespace TestCaseWinforms
             {
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
+
                 _param = value;
+
                 Invalidate();
             }
         }
@@ -57,34 +63,23 @@ namespace TestCaseWinforms
             {
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
+
                 _radix = value;
+
                 Invalidate();
             }
         }
         public Point MousePos
         {
-            //get { return _cellPos; }
             set
             {
-                //if (FrameToShow == null || FrameToShow.Length == 0)
-                //    return;
+                if (FrameToShow == null || FrameToShow.Length == 0)
+                    return;
 
-                //if ((value.X >= _offsetService.X - _cellPosShift
-                //    && value.X < _offsetService.X - _cellPosShift + _cellSize.Width * _wordsServiceCount
-                //    && value.Y >= _offsetService.Y - _cellPosShift
-                //    && value.Y < _offsetService.Y - _cellPosShift + _cellSize.Height)
-                //    ||
-                //    (value.X >= _offsetData.X - _cellPosShift
-                //    && value.X < _offsetData.X - _cellPosShift + _cellSize.Width * _frameRowNumber
-                //    && value.Y >= _offsetData.Y - _cellPosShift
-                //    && value.Y < _offsetData.Y - _cellPosShift + _cellSize.Height * (_frameToShow.Length / _frameRowNumber)))
-                //{
-                //    _cellPos.X = _offsetService.X - _cellPosShift + ((value.X - _offsetService.X) / _cellSize.Width) * _cellSize.Width;
-                //    _cellPos.Y = _offsetService.Y - _cellPosShift + ((value.Y - _offsetService.Y) / _cellSize.Height) * _cellSize.Height;
-                //    Invalidate();
-                //}
-                _posX = value.X;
-                _posY = value.Y;
+                if (value.X >= _gistOffsetX && value.X <= _gistOffsetX + (_frameToShow.Length - 1 - _wordsServiceCount) * _scaleX)
+                {
+                    _redLinePosX = (value.X % 2 == 1) ? value.X - 1 - _gistOffsetX : value.X - _gistOffsetX;
+                }
 
                 Invalidate();
             }
@@ -97,10 +92,10 @@ namespace TestCaseWinforms
                     return;
 
                 if (value == Keys.Left && _redLinePosX > 0)
-                    _redLinePosX -= 2;
+                    _redLinePosX -= 1 * _scaleX;
 
-                if (value == Keys.Right && _redLinePosX < _frameToShow.Length * 2)
-                    _redLinePosX += 2;
+                if (value == Keys.Right && _redLinePosX < (_frameToShow.Length - 1 - _wordsServiceCount) * _scaleX)
+                    _redLinePosX += 1 * _scaleX;
 
                 Invalidate();
             }
@@ -113,36 +108,31 @@ namespace TestCaseWinforms
             this.DoubleBuffered = true;
             _levelLinePen.Width = 1.0F;
             _levelLinePen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            _borderLinePen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             _dataLinePen.Width = 1;
         }
 
         private void GistoViewer_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawString("Путь файла: " + Path + " XF:" + _posX + " YF:" + _posY,
-                _drawFont,
-                _drawBrushService,
-                0,
-                0);
-
             e.Graphics.DrawRectangle(_borderLinePen, _borderRectangle);
 
             if (FrameToShow == null || FrameToShow.Length == 0)
                 return;
 
-            for (int i = _wordsServiceCount, j = 0; i < _frameToShow.Length; i++, j += 2)
+            for (int i = _wordsServiceCount, j = 0; i < _frameToShow.Length; i++, j += 1 * _scaleX)
             {
                 e.Graphics.DrawLine(
                     _dataLinePen,
                     new Point(j + _gistOffsetX, 512 + _gistOffsetY),
-                    new Point(j + _gistOffsetX, 512 + _gistOffsetY - ((_frameToShow.frameArray[i] & _param.Mask) >> _param.Offset) * 2)
+                    new Point(j + _gistOffsetX, 512 + _gistOffsetY - ((_frameToShow.frameArray[i] & _param.Mask) >> _param.Offset) * _scaleY)
                     );
             }
 
-            e.Graphics.DrawString("256", _drawFont, _drawBrushService, 0, 0 + _gistOffsetY - 10);
-            e.Graphics.DrawString("192", _drawFont, _drawBrushService, 0, 128 + _gistOffsetY - 10);
-            e.Graphics.DrawString("128", _drawFont, _drawBrushService, 0, 256 + _gistOffsetY - 10);
-            e.Graphics.DrawString("64", _drawFont, _drawBrushService, 0, 392 + _gistOffsetY - 10);
-            e.Graphics.DrawString("0", _drawFont, _drawBrushService, 0, 512 + _gistOffsetY - 10);
+            e.Graphics.DrawString((256).ToString(_radix), _drawFont, _drawBrushService, 0, 0 + _gistOffsetY - 10);
+            e.Graphics.DrawString((192).ToString(_radix), _drawFont, _drawBrushService, 0, 128 + _gistOffsetY - 10);
+            e.Graphics.DrawString((128).ToString(_radix), _drawFont, _drawBrushService, 0, 256 + _gistOffsetY - 10);
+            e.Graphics.DrawString((64).ToString(_radix), _drawFont, _drawBrushService, 0, 392 + _gistOffsetY - 10);
+            e.Graphics.DrawString((0).ToString(_radix), _drawFont, _drawBrushService, 0, 512 + _gistOffsetY - 10);
 
             //e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 0 + _gistOffsetY), new Point(1025 + _gistOffsetX, 0 + _gistOffsetY));
             e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 128 + _gistOffsetY), new Point(1025 + _gistOffsetX, 128 + _gistOffsetY));
@@ -150,12 +140,18 @@ namespace TestCaseWinforms
             e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 392 + _gistOffsetY), new Point(1025 + _gistOffsetX, 392 + _gistOffsetY));
             //e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 512 + _gistOffsetY), new Point(1025 + _gistOffsetX, 512 + _gistOffsetY));
 
+            _redLineValue = (_frameToShow.frameArray[_redLinePosX / _scaleX + _wordsServiceCount] & _param.Mask) >> _param.Offset;
             //рисуем красную линию
             e.Graphics.DrawLine(
-                    _dataLinePen,
+                    _redLinePen,
                     new Point(_redLinePosX + _gistOffsetX, 512 + _gistOffsetY),
-                    new Point(_redLinePosX + _gistOffsetX, 512 + _gistOffsetY - ((_frameToShow.frameArray[_redLinePosX + _wordsServiceCount] & _param.Mask) >> _param.Offset) * 2)
+                    new Point(_redLinePosX + _gistOffsetX, 512 + _gistOffsetY - (_redLineValue * _scaleY))
                     );
+
+
+            gistoText = "Путь файла: " + Path + " Значение слова:" + _redLineValue.ToString(_radix);
+            //рисуем путь файла, координаты мышки и значение выделенной позиции
+            e.Graphics.DrawString(gistoText, _drawFont, _drawBrushService, 0, 0);
         }
     }
 }
