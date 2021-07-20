@@ -18,7 +18,7 @@ namespace TestCaseWinforms
         static int _wordsServiceCount = 31;
         static int _frameRowNumber = 32;
         static int _cellPosShift = 3;
-        static int _selectedIndex;
+        static int _selectedIndex = -1;
 
         Font _drawFont = new Font("Courier New", 10);
         SolidBrush _drawBrushService = new SolidBrush(Color.DarkMagenta);
@@ -29,10 +29,13 @@ namespace TestCaseWinforms
         string _radix;
 
         static Size _cellSize = new Size(40, 20);
-        static Point _offsetServiceStart = new Point(10, 10);
-        static Point _offsetDataStart = new Point(10, 70);
+        static Point _offsetServiceLabel = new Point(10, 10);
+        static Point _offsetDataLabel = new Point(10, 70);
         static Point _offsetService = new Point(10, 30);
         static Point _offsetData = new Point(10, 90);
+
+        static Rectangle _rectService = new Rectangle(_offsetService, new Size(40 * 31, 20));
+        static Rectangle _rectData = new Rectangle(_offsetData, new Size(40 * 32, 20 * 16));
 
         Pen _myPen = new Pen(Brushes.DeepSkyBlue);
 
@@ -85,23 +88,11 @@ namespace TestCaseWinforms
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
 
-                _row = (value.X - _offsetService.X) / _cellSize.Width;
-                _col = (value.Y - _offsetService.Y) / _cellSize.Height;
+                _selectedIndex = GetIndex(value);
 
-                if ((value.X >= _offsetService.X - _cellPosShift
-                    && value.X < _offsetService.X - _cellPosShift + _cellSize.Width * _wordsServiceCount
-                    && value.Y >= _offsetService.Y - _cellPosShift
-                    && value.Y < _offsetService.Y - _cellPosShift + _cellSize.Height)
-                    ||
-                    (value.X >= _offsetData.X - _cellPosShift
-                    && value.X < _offsetData.X - _cellPosShift + _cellSize.Width * _frameRowNumber
-                    && value.Y >= _offsetData.Y - _cellPosShift
-                    && value.Y < _offsetData.Y - _cellPosShift + _cellSize.Height * (_frameToShow.Length / _frameRowNumber)))
-                {
-                    _cellPos.X = _offsetService.X - _cellPosShift + ((value.X - _offsetService.X) / _cellSize.Width) * _cellSize.Width;
-                    _cellPos.Y = _offsetService.Y - _cellPosShift + ((value.Y - _offsetService.Y) / _cellSize.Height) * _cellSize.Height;
-                    Invalidate();
-                }
+                GetCellPos(_selectedIndex);
+
+                Invalidate();
             }
         }
         public Keys KeyPos
@@ -111,28 +102,78 @@ namespace TestCaseWinforms
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
 
-                if (value == Keys.Up && _cellPos.Y >= _offsetService.Y - _cellPosShift + _cellSize.Height)
-                    if (_cellPos.Y == _offsetData.Y - _cellPosShift)
-                        _cellPos.Y -= _cellSize.Height * 3;
-                    else
-                        _cellPos.Y -= _cellSize.Height;
+                if (_selectedIndex == -1)
+                    _selectedIndex = 0;
 
-                if (value == Keys.Down && _cellPos.Y < _offsetData.Y - _cellPosShift + _cellSize.Height * (_frameToShow.Length / _frameRowNumber - 1))
-                    if (_cellPos.Y == _offsetService.Y - _cellPosShift)
-                        _cellPos.Y += _cellSize.Height * 3;
-                    else
-                        _cellPos.Y += _cellSize.Height;
+                switch (value)
+                {
+                    case Keys.Left:
+                        if (_selectedIndex > 0)
+                            _selectedIndex--;
+                        break;
+                    case Keys.Right:
+                        if (_selectedIndex < FrameToShow.Length - 1)
+                            _selectedIndex++;
+                        break;
+                    case Keys.Up:
+                        if (_selectedIndex >= _wordsServiceCount + 1)
+                            _selectedIndex -= 32;
+                        break;
+                    case Keys.Down:
+                        if (_selectedIndex < FrameToShow.Length - 1)
+                            _selectedIndex += 32;
+                        break;
+                    default:
+                        break;
+                }
 
-                if (value == Keys.Left && _cellPos.X >= _offsetData.X - _cellPosShift + _cellSize.Width)
-                    _cellPos.X -= _cellSize.Width;
-
-                if (value == Keys.Right && _cellPos.X < _offsetData.X - _cellPosShift + _cellSize.Width * (_frameRowNumber - 1))
-                    _cellPos.X += _cellSize.Width;
+                GetCellPos(_selectedIndex);
 
                 Invalidate();
             }
         }
 
+        int GetIndex(Point pos)
+        {
+            //курсор находится в области служ. слов
+            if (_rectService.Contains(pos))
+            {
+                _row = (pos.X - _offsetService.X) / _cellSize.Width;
+                _col = (pos.Y - _offsetService.Y) / _cellSize.Height;
+            }
+
+            //курсор находится в области информ. слов
+            if (_rectData.Contains(pos))
+            {
+                _row = (pos.X - _offsetData.X) / _cellSize.Width + 31;
+                _col = (pos.Y - _offsetData.Y) / _cellSize.Height;
+            }
+
+            return _row + _col * 32;
+        }
+
+        void GetCellPos(int index)
+        {
+            if (_selectedIndex < _wordsServiceCount)
+            {
+                //нормировка
+                _cellPos.X = _offsetService.X - _cellPosShift;
+                _cellPos.Y = _offsetService.Y - _cellPosShift;
+
+                //вычисление позиции для рамки выделения
+                _cellPos.X += _selectedIndex % _frameRowNumber * _cellSize.Width;
+            }
+            else
+            {
+                //нормировка
+                _cellPos.X = _offsetData.X - _cellPosShift;
+                _cellPos.Y = _offsetData.Y - _cellPosShift;
+
+                //вычисление позиции для рамки выделения
+                _cellPos.X += (_selectedIndex - _wordsServiceCount) % _frameRowNumber * _cellSize.Width;
+                _cellPos.Y += (_selectedIndex - _wordsServiceCount) / _frameRowNumber * _cellSize.Height;
+            }
+        }
         public FrameViewer()
         {
             InitializeComponent();
@@ -149,11 +190,12 @@ namespace TestCaseWinforms
                 return;
 
             //рисуем служебную часть кадра
-            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path + " XF:" + _cellPos.X + " YF:" + _cellPos.Y + " Row: " + _row + " Column: " + _col,
+            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path + " XF:" + _cellPos.X + " YF:"
+                + _cellPos.Y + " Row: " + _row + " Column: " + _col + " Позиция: " + (_selectedIndex + 1),
                 _drawFont,
                 _drawBrushService,
-                _offsetServiceStart.X,
-                _offsetServiceStart.Y);
+                _offsetServiceLabel.X,
+                _offsetServiceLabel.Y);
 
             for (int i = 0; i < _wordsServiceCount; i++)
             {
@@ -169,8 +211,8 @@ namespace TestCaseWinforms
             e.Graphics.DrawString("Информационная часть кадра",
                 _drawFont,
                 _drawBrushData,
-                _offsetDataStart.X,
-                _offsetDataStart.Y);
+                _offsetDataLabel.X,
+                _offsetDataLabel.Y);
 
             for (int i = 0; i < FrameToShow.Length - _wordsServiceCount; i++)
             {
