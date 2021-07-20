@@ -19,6 +19,7 @@ namespace TestCaseWinforms
         static int _wordsServiceCount = 31;
         int _posX = 0, _posY = 0, _gistOffsetX = 32, _gistOffsetY = 50;
         Rectangle _borderRectangle = new Rectangle(28, 48, 1030, 515);
+        int _redLinePosX;
 
         Font _drawFont = new Font("Courier New", 10);
         SolidBrush _drawBrushService = new SolidBrush(Color.DarkMagenta);
@@ -26,6 +27,7 @@ namespace TestCaseWinforms
         Pen _levelLinePen = new Pen(Brushes.DeepSkyBlue);
         Pen _dataLinePen = new Pen(Brushes.DarkBlue);
         Pen _borderLinePen = new Pen(Brushes.Coral);
+        Pen _redLinePen = new Pen(Brushes.Red);
 
         public Frame FrameToShow
         {
@@ -91,28 +93,16 @@ namespace TestCaseWinforms
         {
             set
             {
-                //if (FrameToShow == null || FrameToShow.Length == 0)
-                //    return;
+                if (FrameToShow == null || FrameToShow.Length == 0)
+                    return;
 
-                //if (value == Keys.Up && _cellPos.Y >= _offsetService.Y - _cellPosShift + _cellSize.Height)
-                //    if (_cellPos.Y == _offsetData.Y - _cellPosShift)
-                //        _cellPos.Y -= _cellSize.Height * 3;
-                //    else
-                //        _cellPos.Y -= _cellSize.Height;
+                if (value == Keys.Left && _redLinePosX > 0)
+                    _redLinePosX -= 2;
 
-                //if (value == Keys.Down && _cellPos.Y < _offsetData.Y - _cellPosShift + _cellSize.Height * (_frameToShow.Length / _frameRowNumber - 1))
-                //    if (_cellPos.Y == _offsetService.Y - _cellPosShift)
-                //        _cellPos.Y += _cellSize.Height * 3;
-                //    else
-                //        _cellPos.Y += _cellSize.Height;
+                if (value == Keys.Right && _redLinePosX < _frameToShow.Length * 2)
+                    _redLinePosX += 2;
 
-                //if (value == Keys.Left && _cellPos.X >= _offsetData.X - _cellPosShift + _cellSize.Width)
-                //    _cellPos.X -= _cellSize.Width;
-
-                //if (value == Keys.Right && _cellPos.X < _offsetData.X - _cellPosShift + _cellSize.Width * (_frameRowNumber - 1))
-                //    _cellPos.X += _cellSize.Width;
-
-                //Invalidate();
+                Invalidate();
             }
         }
 
@@ -159,6 +149,13 @@ namespace TestCaseWinforms
             e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 256 + _gistOffsetY), new Point(1025 + _gistOffsetX, 256 + _gistOffsetY));
             e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 392 + _gistOffsetY), new Point(1025 + _gistOffsetX, 392 + _gistOffsetY));
             //e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, 512 + _gistOffsetY), new Point(1025 + _gistOffsetX, 512 + _gistOffsetY));
+
+            //рисуем красную линию
+            e.Graphics.DrawLine(
+                    _dataLinePen,
+                    new Point(_redLinePosX + _gistOffsetX, 512 + _gistOffsetY),
+                    new Point(_redLinePosX + _gistOffsetX, 512 + _gistOffsetY - ((_frameToShow.frameArray[_redLinePosX + _wordsServiceCount] & _param.Mask) >> _param.Offset) * 2)
+                    );
         }
     }
 }

@@ -29,6 +29,10 @@ namespace TestCaseWinforms
             this.comboBoxWordFormat.Enabled = false;
             this.radioButtonDEC.Enabled = false;
             this.radioButtonHEX.Enabled = false;
+            foreach (var item in Controls.OfType<UserControl>())
+            {
+                item.PreviewKeyDown += controls_PreviewKeyDown;
+            }
         }
 
         //открытие файла с кадром
@@ -98,6 +102,7 @@ namespace TestCaseWinforms
 
         private void controls_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
+            //для frameViewer'а
             switch (e.KeyCode)
             {
                 case Keys.Up:
@@ -106,6 +111,18 @@ namespace TestCaseWinforms
                 case Keys.Right:
                     e.IsInputKey = true;
                     this.frameViewer.KeyPos = e.KeyCode;
+                    break;
+                default:
+                    break;
+            }
+
+            //для gistoViewer'а
+            switch (e.KeyCode)
+            {
+                case Keys.Left:
+                case Keys.Right:
+                    e.IsInputKey = true;
+                    this.gistoViewer.KeyPos = e.KeyCode;
                     break;
                 default:
                     break;
