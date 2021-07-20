@@ -14,21 +14,31 @@ namespace TestCaseWinforms
     {
         Frame _frameToShow;
         string _path;
+
         static int _wordsServiceCount = 31;
         static int _frameRowNumber = 32;
         static int _cellPosShift = 3;
+        static int _selectedIndex;
+
         Font _drawFont = new Font("Courier New", 10);
         SolidBrush _drawBrushService = new SolidBrush(Color.DarkMagenta);
         SolidBrush _drawBrushData = new SolidBrush(Color.DarkBlue);
+
         FrameViewInfo _param;
+
         string _radix;
+
         static Size _cellSize = new Size(40, 20);
         static Point _offsetServiceStart = new Point(10, 10);
         static Point _offsetDataStart = new Point(10, 70);
         static Point _offsetService = new Point(10, 30);
         static Point _offsetData = new Point(10, 90);
+
         Pen _myPen = new Pen(Brushes.DeepSkyBlue);
+
         Point _cellPos = new Point(_offsetService.X - _cellPosShift, _offsetService.Y - _cellPosShift);
+
+        int _row, _col;
 
         public Frame FrameToShow
         {
@@ -62,6 +72,11 @@ namespace TestCaseWinforms
                 Invalidate();
             }
         }
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set { _selectedIndex = value; Invalidate(); }
+        }
         public Point MousePos
         {
             get { return _cellPos; }
@@ -69,6 +84,9 @@ namespace TestCaseWinforms
             {
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
+
+                _row = (value.X - _offsetService.X) / _cellSize.Width;
+                _col = (value.Y - _offsetService.Y) / _cellSize.Height;
 
                 if ((value.X >= _offsetService.X - _cellPosShift
                     && value.X < _offsetService.X - _cellPosShift + _cellSize.Width * _wordsServiceCount
@@ -131,7 +149,7 @@ namespace TestCaseWinforms
                 return;
 
             //рисуем служебную часть кадра
-            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path + " XF:" + _cellPos.X + " YF:" + _cellPos.Y,
+            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path + " XF:" + _cellPos.X + " YF:" + _cellPos.Y + " Row: " + _row + " Column: " + _col,
                 _drawFont,
                 _drawBrushService,
                 _offsetServiceStart.X,
