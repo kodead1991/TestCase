@@ -97,9 +97,9 @@ namespace TestCaseWinforms
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
 
-                _selectedIndex = GetIndex(value);
+                SelectedIndex = GetIndex(value);
 
-                GetCellPos(_selectedIndex);
+                GetCellPos(SelectedIndex);
 
                 Invalidate();
             }
@@ -114,26 +114,26 @@ namespace TestCaseWinforms
                 switch (value)
                 {
                     case Keys.Left:
-                        if (_selectedIndex > 0)
-                            _selectedIndex--;
+                        if (SelectedIndex > 0)
+                            SelectedIndex--;
                         break;
                     case Keys.Right:
-                        if (_selectedIndex < FrameToShow.Length - 1)
-                            _selectedIndex++;
+                        if (SelectedIndex < FrameToShow.Length - 1)
+                            SelectedIndex++;
                         break;
                     case Keys.Up:
-                        if (_selectedIndex >= _wordsServiceCount + 1)
-                            _selectedIndex -= 32;
+                        if (SelectedIndex >= _wordsServiceCount + 1)
+                            SelectedIndex -= 32;
                         break;
                     case Keys.Down:
-                        if (_selectedIndex < FrameToShow.Length - 1 - _wordsServiceCount)
-                            _selectedIndex += 32;
+                        if (SelectedIndex < FrameToShow.Length - 1 - _wordsServiceCount)
+                            SelectedIndex += 32;
                         break;
                     default:
                         break;
                 }
 
-                GetCellPos(_selectedIndex);
+                GetCellPos(SelectedIndex);
 
                 Invalidate();
             }

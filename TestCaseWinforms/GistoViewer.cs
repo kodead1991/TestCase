@@ -94,6 +94,7 @@ namespace TestCaseWinforms
                 if (value.X >= _gistOffsetX && value.X <= _gistOffsetX + (_frameToShow.Length - 1 - _wordsServiceCount) * _scaleX)
                 {
                     _redLinePosX = (value.X % 2 == 1) ? value.X - 1 - _gistOffsetX : value.X - _gistOffsetX;
+                    //добавить изменение индекса, а отрисовку перенести в Paint
                 }
 
                 Invalidate();
