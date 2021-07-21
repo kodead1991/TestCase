@@ -18,7 +18,7 @@ namespace TestCaseWinforms
         string _radix;
         static int _wordsServiceCount = 31;
         int _posX = 0, _posY = 0, _gistOffsetX = 32, _gistOffsetY = 50;
-        Rectangle _borderRectangle = new Rectangle(28, 48, 1030, 515);
+        Rectangle _borderRectangle = new Rectangle(30, 49, 1026, 515);
         int _redLinePosX = 0;
         int _redLineValue = 0;
         string gistoText = "";

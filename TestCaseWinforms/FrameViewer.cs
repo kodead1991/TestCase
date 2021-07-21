@@ -120,7 +120,7 @@ namespace TestCaseWinforms
                             _selectedIndex -= 32;
                         break;
                     case Keys.Down:
-                        if (_selectedIndex < FrameToShow.Length - 1)
+                        if (_selectedIndex < FrameToShow.Length - 1 - _wordsServiceCount)
                             _selectedIndex += 32;
                         break;
                     default:
