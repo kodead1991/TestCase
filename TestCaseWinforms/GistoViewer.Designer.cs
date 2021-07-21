@@ -33,12 +33,12 @@ namespace TestCaseWinforms
             // 
             // GistoViewer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "GistoViewer";
-            this.Size = new System.Drawing.Size(1287, 758);
+            this.Size = new System.Drawing.Size(965, 616);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GistoViewer_Paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GistoViewer_MouseClick);
             this.ResumeLayout(false);
 
         }

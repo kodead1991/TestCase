@@ -18,7 +18,7 @@ namespace TestCaseWinforms
         static int _wordsServiceCount = 31;
         static int _frameRowNumber = 32;
         static int _cellPosShift = 3;
-        static int _selectedIndex = -1;
+        static int _selectedIndex;
 
         Font _drawFont = new Font("Courier New", 10);
         SolidBrush _drawBrushService = new SolidBrush(Color.DarkMagenta);
@@ -29,6 +29,7 @@ namespace TestCaseWinforms
         string _radix;
 
         static Size _cellSize = new Size(40, 20);
+
         static Point _offsetServiceLabel = new Point(10, 10);
         static Point _offsetDataLabel = new Point(10, 70);
         static Point _offsetService = new Point(10, 30);
@@ -42,6 +43,8 @@ namespace TestCaseWinforms
         Point _cellPos = new Point(_offsetService.X - _cellPosShift, _offsetService.Y - _cellPosShift);
 
         int _row, _col;
+
+        public event EventHandler SelectedIndexChanged;
 
         public Frame FrameToShow
         {
@@ -78,7 +81,13 @@ namespace TestCaseWinforms
         public int SelectedIndex
         {
             get { return _selectedIndex; }
-            set { _selectedIndex = value; Invalidate(); }
+            set {
+                _selectedIndex = value;
+
+                if (SelectedIndexChanged != null)
+
+                    SelectedIndexChanged(this, EventArgs.Empty);
+                Invalidate(); }
         }
         public Point MousePos
         {
@@ -101,9 +110,6 @@ namespace TestCaseWinforms
             {
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
-
-                if (_selectedIndex == -1)
-                    _selectedIndex = 0;
 
                 switch (value)
                 {
@@ -174,6 +180,7 @@ namespace TestCaseWinforms
                 _cellPos.Y += (_selectedIndex - _wordsServiceCount) / _frameRowNumber * _cellSize.Height;
             }
         }
+
         public FrameViewer()
         {
             InitializeComponent();
@@ -182,6 +189,29 @@ namespace TestCaseWinforms
             //настройки линии прямоугольника
             _myPen.Width = 1.0F;
             _myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
+            this.PreviewKeyDown += controls_PreviewKeyDown;
+        }
+
+        private void controls_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            //для frameViewer'а
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                    this.KeyPos = e.KeyCode;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void FrameViewer_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.MousePos = e.Location;
         }
 
         private void FrameViewer_Paint(object sender, PaintEventArgs e)

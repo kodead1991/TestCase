@@ -14,49 +14,79 @@ namespace TestCaseWinforms
     public partial class FormMain : Form
     {
         public string path;
+
         int wordNumber;
         int frameNumber;
+
         List<Frame> frames;
+
         public FormMain()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void FormMain_Load(object sender, EventArgs e)
         {
-            this.comboBoxWordFormat.Items.AddRange(new object[] { new FrameViewInfo("0111111110", 0x1FE, 1), new FrameViewInfo("1111111111", 0x3FF, 0) });
+            this.comboBoxWordFormat.Items.AddRange(new object[] {
+                new FrameViewInfo("0111111110", 0x1FE, 1),
+                new FrameViewInfo("1111111111", 0x3FF, 0)
+            });
+
             this.comboBoxWordFormat.SelectedIndex = 0;
             this.comboBoxWordFormat.Enabled = false;
+
             this.radioButtonDEC.Enabled = false;
             this.radioButtonHEX.Enabled = false;
-            this.frameViewer.PreviewKeyDown += controls_PreviewKeyDown;
-            this.gistoViewer.PreviewKeyDown += controls_PreviewKeyDown;
+
+            this.frameViewer.SelectedIndexChanged += FrameViewer_SelectedIndexChanged;
+            this.gistoViewer.SelectedIndexChanged += GistoViewer_SelectedIndexChanged;
         }
+
+        private void FrameViewer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.gistoViewer.SelectedIndex != this.frameViewer.SelectedIndex)
+            {
+                this.gistoViewer.SelectedIndex = this.frameViewer.SelectedIndex;
+            }
+        }
+
+        private void GistoViewer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.frameViewer.SelectedIndex != this.gistoViewer.SelectedIndex)
+            {
+                this.frameViewer.SelectedIndex = this.gistoViewer.SelectedIndex;
+            }
+        }   
 
         //открытие файла с кадром
         private void OpenFile_click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+
             dialog.Filter = "Файл кадра(*.kdr)|*.kdr|All files(*.*)|*.*";
+
             if (dialog.ShowDialog() == DialogResult.Cancel)
                 return;
 
             path = this.frameViewer.Path = this.gistoViewer.Path = dialog.FileName; // получаем путь выбранного файла
+
             wordNumber = FrameFile.WordCounter(new StreamReader(path));
             frameNumber = (int)new FileInfo(path).Length / (11 + wordNumber * 5);
+
             frames = new List<Frame>();
+
             StreamReader sr = new StreamReader(path);
-            //for (int i = 0; i < frameNumber; i++)
-            //{
-            //    frames.Add(FrameFile.Read(sr, wordNumber, i));
-            //}
+
             frames = FrameFile.Read(path);
+
             this.comboBoxWordFormat.Enabled = true;
             this.radioButtonDEC.Enabled = true;
             this.radioButtonHEX.Enabled = true;
+
             this.frameViewer.FrameToShow = this.gistoViewer.FrameToShow = frames[0]; //передача массива кадров в Control отоборажения кадра
             this.frameViewer.Param = this.gistoViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
             this.frameViewer.Radix = this.gistoViewer.Radix = "X3";
+
             this.frameTrackBar.Minimum = 1;
             this.frameTrackBar.Maximum = frames.Count;
             this.frameTrackBar.Value = 1;
@@ -66,6 +96,7 @@ namespace TestCaseWinforms
         private void TrackBar_ValueChanged(object sender, EventArgs e)
         {
             this.currentFrameNumber.Text = this.frameTrackBar.Value.ToString();
+
             if (frames == null || frames.Count == 0)
                 return;
 
@@ -98,44 +129,6 @@ namespace TestCaseWinforms
 
             //передача типа структуры кадров в Control отоборажения кадра
             this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
-        }
-        private void frameViewer_MouseClick(object sender, MouseEventArgs e)
-        {
-            this.frameViewer.MousePos = e.Location;
-        }
-
-        private void controls_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            //для frameViewer'а
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                case Keys.Down:
-                case Keys.Left:
-                case Keys.Right:
-                    e.IsInputKey = true;
-                    this.frameViewer.KeyPos = e.KeyCode;
-                    break;
-                default:
-                    break;
-            }
-
-            //для gistoViewer'а
-            switch (e.KeyCode)
-            {
-                case Keys.Left:
-                case Keys.Right:
-                    e.IsInputKey = true;
-                    this.gistoViewer.KeyPos = e.KeyCode;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void gistoViewer_MouseClick(object sender, MouseEventArgs e)
-        {
-            this.gistoViewer.MousePos = e.Location;
         }
     }
 }

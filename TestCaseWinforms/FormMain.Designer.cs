@@ -179,7 +179,6 @@ namespace TestCaseWinforms
             this.frameViewer.Radix = null;
             this.frameViewer.Size = new System.Drawing.Size(1720, 542);
             this.frameViewer.TabIndex = 6;
-            this.frameViewer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.frameViewer_MouseClick);
             // 
             // gistoView
             // 
@@ -205,7 +204,6 @@ namespace TestCaseWinforms
             this.gistoViewer.Radix = null;
             this.gistoViewer.Size = new System.Drawing.Size(1840, 742);
             this.gistoViewer.TabIndex = 0;
-            this.gistoViewer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gistoViewer_MouseClick);
             // 
             // FormMain
             // 
@@ -226,7 +224,7 @@ namespace TestCaseWinforms
             this.MinimumSize = new System.Drawing.Size(1810, 803);
             this.Name = "FormMain";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.FormMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.frameTrackBar)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.frameView.ResumeLayout(false);
