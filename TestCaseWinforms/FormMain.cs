@@ -20,6 +20,8 @@ namespace TestCaseWinforms
 
         List<Frame> frames;
 
+        List<FramePosViewInfo> listFramePos;
+
         public FormMain()
         {
             InitializeComponent();
@@ -43,6 +45,8 @@ namespace TestCaseWinforms
             this.frameViewer.SelectedIndexChanged += FrameViewer_SelectedIndexChanged;
             this.frameViewer.SelectIndexToDraw += FrameViewer_SelectIndexToDraw;
             this.gistoViewer.SelectedIndexChanged += GistoViewer_SelectedIndexChanged;
+
+            this.listFramePos = new List<FramePosViewInfo>();
         }
 
         private void FrameViewer_SelectedIndexChanged(object sender, EventArgs e)
@@ -55,9 +59,14 @@ namespace TestCaseWinforms
 
         private void FrameViewer_SelectIndexToDraw(object sender, EventArgs e)
         {
-            this.framePosBox.Items.Add(this.frameViewer.SelectedIndex);
+            //this.framePosBox.Items.Add(this.frameViewer.SelectedIndex);
+            this.framePosBox.Items.Add(new FramePosViewInfo(this.frameViewer.SelectedIndex));
+            this.listFramePos.Add(new FramePosViewInfo(this.frameViewer.SelectedIndex));
             this.framePosBox.DrawMode = DrawMode.OwnerDrawFixed;
-            this.framePosBox.DrawItem += new DrawItemEventHandler(FramePosBox_DrawItem);
+            this.framePosBox.Invalidate();
+            //this.framePosBox.DrawItem += new DrawItemEventHandler(FramePosBox_DrawItem);
+            //this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
+
         }
 
         private void GistoViewer_SelectedIndexChanged(object sender, EventArgs e)
@@ -160,38 +169,21 @@ namespace TestCaseWinforms
             this.framePosBox.DrawItem += new DrawItemEventHandler(FramePosBox_DrawItem);
         }
 
+        //отрисовка элементов в listBox'e
         private void FramePosBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (this.frameViewer.FrameToShow == null || this.frameViewer.FrameToShow.Length == 0)
                 return;
 
-            //e.DrawBackground();
-            // Define the default color of the brush as black.
-            Brush myBrush = Brushes.Black;
             
-            
+            FramePosViewInfo f = (FramePosViewInfo)this.framePosBox.Items[e.Index];
 
-            e.Graphics.DrawString(this.framePosBox.Items[e.Index].ToString(),
-                e.Font, myBrush, e.Bounds, StringFormat.GenericDefault);
+            e.Graphics.DrawString(f.FrameIndex.ToString(),
+                e.Font, f.FrameIndexBrush, e.Bounds, StringFormat.GenericDefault);
 
-            switch (e.Index)
-            {
-                case 0:
-                    myBrush = Brushes.Red;
-                    break;
-                case 1:
-                    myBrush = Brushes.Orange;
-                    break;
-                case 2:
-                    myBrush = Brushes.Purple;
-                    break;
-            }
-
-            Pen myPen = new Pen(myBrush);
+            Pen myPen = new Pen(f.FrameIndexBrush);
             myPen.Width = 2.0F;
             e.Graphics.DrawLine(myPen, 25, 5 + e.Index * 13, 100, 6 + e.Index * 13);
-            // If the ListBox has focus, draw a focus rectangle around the selected item.
-            e.DrawFocusRectangle();
 
             
         }

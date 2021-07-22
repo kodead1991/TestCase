@@ -59,6 +59,7 @@
     <Compile Include="FramePosViewer.Designer.cs">
       <DependentUpon>FramePosViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="FramePosViewInfo.cs" />
     <Compile Include="FrameViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
