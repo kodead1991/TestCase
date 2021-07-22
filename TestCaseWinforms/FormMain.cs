@@ -61,7 +61,7 @@ namespace TestCaseWinforms
         {
             //this.framePosBox.Items.Add(this.frameViewer.SelectedIndex);
             this.framePosBox.Items.Add(new FramePosViewInfo(this.frameViewer.SelectedIndex));
-            this.listFramePos.Add(new FramePosViewInfo(this.frameViewer.SelectedIndex));
+            
             this.framePosBox.DrawMode = DrawMode.OwnerDrawFixed;
             this.framePosBox.Invalidate();
             //this.framePosBox.DrawItem += new DrawItemEventHandler(FramePosBox_DrawItem);

@@ -12,6 +12,7 @@ namespace TestCaseWinforms
         static int colorNumber = -1;
         int _frameIndex;
         Brush _frameIndexBrush;
+        Color[] colors = new Color[] { Color.Red, Color.Green, Color.Blue, Color.DarkOrange, Color.DeepPink, Color.DarkMagenta, Color.DarkViolet, Color.Olive, Color.Gold, Color.Gray };
 
         public int FrameIndex
         {
@@ -27,32 +28,7 @@ namespace TestCaseWinforms
         public FramePosViewInfo(int index)
         {
             _frameIndex = index;
-
-            switch (++colorNumber % 11)
-            {
-                case 0:
-                    _frameIndexBrush = new SolidBrush(Color.Red); break;
-                case 1:
-                    _frameIndexBrush = new SolidBrush(Color.Blue); break;
-                case 2:
-                    _frameIndexBrush = new SolidBrush(Color.Green); break;
-                case 3:
-                    _frameIndexBrush = new SolidBrush(Color.DarkOrange); break;
-                case 4:
-                    _frameIndexBrush = new SolidBrush(Color.DeepPink); break;
-                case 5:
-                    _frameIndexBrush = new SolidBrush(Color.DarkMagenta); break;
-                case 6:
-                    _frameIndexBrush = new SolidBrush(Color.DarkViolet); break;
-                case 7:
-                    _frameIndexBrush = new SolidBrush(Color.Olive); break;
-                case 9:
-                    _frameIndexBrush = new SolidBrush(Color.Gold); break;
-                case 10:
-                    _frameIndexBrush = new SolidBrush(Color.Gray); break;
-                default:
-                    break;
-            }
+            _frameIndexBrush = new SolidBrush(colors[index++ % colors.Length]);
         }
     }
 }
