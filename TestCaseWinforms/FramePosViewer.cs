@@ -93,11 +93,11 @@ namespace TestCaseWinforms
             for (int i = 64 * _scaleY; i < 512 - 64; i += 64 * _scaleY)
                 e.Graphics.DrawLine(_levelLinePen, new Point(0 + _drawOffset.X, i + _drawOffset.Y), new Point(1200 + _drawOffset.X, i + _drawOffset.Y));
 
-            for (int i = _startFramePos; i < _frames.Count - 1; i++)
+            for (int i = 0, j = _startFramePos; i < _frames.Count - 1 - j; i++)
             {
-                var pos1 = ((Frames[i].frameArray[0] & _param.Mask) >> _param.Offset) * _scaleY;
-                var pos2 = ((Frames[i + 1].frameArray[0] & _param.Mask) >> _param.Offset) * _scaleY;
-                e.Graphics.DrawLine(myPen, i + _drawOffset.X, 512 - pos1 + _drawOffset.Y, i * 2 + _drawOffset.X, 512 - pos2 + _drawOffset.Y);
+                var posY1 = ((Frames[i+j].frameArray[32] & _param.Mask) >> _param.Offset) * _scaleY;
+                var posY2 = ((Frames[i+j + 1].frameArray[32] & _param.Mask) >> _param.Offset) * _scaleY;
+                e.Graphics.DrawLine(myPen, i * 2 + _drawOffset.X, 512 - posY1 + _drawOffset.Y, (i + 1) * 2 + _drawOffset.X, 512 - posY2 + _drawOffset.Y);
             };
         }
     }
