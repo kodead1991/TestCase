@@ -23,7 +23,7 @@ namespace TestCaseWinforms
         static int _wordsServiceCount = 31;
         static int _selectedIndex;
 
-        Point _gistOffset = new Point(32, 50);
+        Point _drawOffset = new Point(32, 50);
 
         Rectangle _borderRectangle = new Rectangle(30, 49, 1026, 515);
 
@@ -90,9 +90,9 @@ namespace TestCaseWinforms
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
 
-                if (value.X >= _gistOffset.X && value.X <= _gistOffset.X + (_frameToShow.Length - 1 - _wordsServiceCount) * _scaleX)
+                if (value.X >= _drawOffset.X && value.X <= _drawOffset.X + (_frameToShow.Length - 1 - _wordsServiceCount) * _scaleX)
                 {
-                    SelectedIndex = _wordsServiceCount + (value.X - _gistOffset.X) / 2;
+                    SelectedIndex = _wordsServiceCount + (value.X - _drawOffset.X) / 2;
                 }
             }
         }
@@ -178,27 +178,27 @@ namespace TestCaseWinforms
             {
                 e.Graphics.DrawLine(
                     _dataLinePen,
-                    new Point(j + _gistOffset.X, 512 + _gistOffset.Y),
-                    new Point(j + _gistOffset.X, 512 + _gistOffset.Y - ((_frameToShow.frameArray[i] & _param.Mask) >> _param.Offset) * _scaleY)
+                    new Point(j + _drawOffset.X, 512 + _drawOffset.Y),
+                    new Point(j + _drawOffset.X, 512 + _drawOffset.Y - ((_frameToShow.frameArray[i] & _param.Mask) >> _param.Offset) * _scaleY)
                     );
             }
 
             //отрисовка цифр на оси Y
             for (int i = 256, j = 0; i >= 0; i -= 64, j += 64 * _scaleY)
-                e.Graphics.DrawString((i).ToString(_radix), _drawFont, _drawBrushService, 0, j + _gistOffset.Y - 10);
+                e.Graphics.DrawString((i).ToString(_radix), _drawFont, _drawBrushService, 0, j + _drawOffset.Y - 10);
 
             //отрисовка линий уровней данных
             for (int i = 64 * _scaleY; i < 512 - 64; i += 64 * _scaleY)
-                e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffset.X, i + _gistOffset.Y), new Point(1025 + _gistOffset.X, i + _gistOffset.Y));
+                e.Graphics.DrawLine(_levelLinePen, new Point(0 + _drawOffset.X, i + _drawOffset.Y), new Point(1025 + _drawOffset.X, i + _drawOffset.Y));
 
             //рисуем красную линию
-            _redLinePosX = _gistOffset.X + (SelectedIndex - _wordsServiceCount) * _scaleX;
+            _redLinePosX = _drawOffset.X + (SelectedIndex - _wordsServiceCount) * _scaleX;
             _redLineValue = ((_frameToShow.frameArray[SelectedIndex] & _param.Mask) >> _param.Offset) * _scaleY;
             if (SelectedIndex >= _wordsServiceCount)
                 e.Graphics.DrawLine(
                         _redLinePen,
-                        new Point(_redLinePosX, 512 + _gistOffset.Y),
-                        new Point(_redLinePosX, 512 + _gistOffset.Y - _redLineValue)
+                        new Point(_redLinePosX, 512 + _drawOffset.Y),
+                        new Point(_redLinePosX, 512 + _drawOffset.Y - _redLineValue)
                         );
 
             //рисуем путь файла, координаты мышки и значение выделенной позиции

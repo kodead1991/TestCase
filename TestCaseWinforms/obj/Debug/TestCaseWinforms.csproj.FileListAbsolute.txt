@@ -22,3 +22,4 @@ C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestC
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FrameViewer.resources
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.GistoViewer.resources
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.GistoViewer.resources
+C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FramePosViewer.resources

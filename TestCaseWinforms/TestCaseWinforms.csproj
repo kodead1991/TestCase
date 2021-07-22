@@ -53,6 +53,12 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="FrameFile.cs" />
+    <Compile Include="FramePosViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FramePosViewer.Designer.cs">
+      <DependentUpon>FramePosViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrameViewer.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -71,6 +77,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FramePosViewer.resx">
+      <DependentUpon>FramePosViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrameViewer.resx">
       <DependentUpon>FrameViewer.cs</DependentUpon>

@@ -45,6 +45,7 @@ namespace TestCaseWinforms
         int _row, _col;
 
         public event EventHandler SelectedIndexChanged;
+        public event EventHandler SelectIndexToDraw;
 
         public Frame FrameToShow
         {
@@ -234,6 +235,12 @@ namespace TestCaseWinforms
             }
 
             return _row + _col * 32;
+        }
+
+        private void FramePosBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (SelectIndexToDraw != null)
+                SelectIndexToDraw(this, EventArgs.Empty);
         }
 
         void GetCellRectPos(int index)

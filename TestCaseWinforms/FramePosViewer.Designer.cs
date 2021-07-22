@@ -1,6 +1,6 @@
 ﻿namespace TestCaseWinforms
 {
-    partial class FrameViewer
+    partial class FramePosViewer
     {
         /// <summary> 
         /// Обязательная переменная конструктора.
@@ -30,16 +30,14 @@
         {
             this.SuspendLayout();
             // 
-            // FrameViewer
+            // FramePosViewer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.DoubleBuffered = true;
-            this.Name = "FrameViewer";
+            this.Name = "FramePosViewer";
             this.Size = new System.Drawing.Size(965, 616);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FrameViewer_Paint);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FrameViewer_MouseClick);
-            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FramePosBox_MouseDoubleClick);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.FramePosViewer_Paint);
             this.ResumeLayout(false);
 
         }
