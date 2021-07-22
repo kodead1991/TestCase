@@ -40,7 +40,7 @@ namespace TestCaseWinforms
 
         Pen _myPen = new Pen(Brushes.DeepSkyBlue);
 
-        Point _cellPos = new Point(_offsetService.X - _cellPosShift, _offsetService.Y - _cellPosShift);
+        Point _cellRectPos = new Point(_offsetService.X - _cellPosShift, _offsetService.Y - _cellPosShift);
 
         int _row, _col;
 
@@ -81,17 +81,20 @@ namespace TestCaseWinforms
         public int SelectedIndex
         {
             get { return _selectedIndex; }
-            set {
+            set
+            {
                 _selectedIndex = value;
+                GetCellRectPos(_selectedIndex);
+
+                this.Invalidate();
 
                 if (SelectedIndexChanged != null)
-
                     SelectedIndexChanged(this, EventArgs.Empty);
-                Invalidate(); }
+            }
         }
         public Point MousePos
         {
-            get { return _cellPos; }
+            get { return _cellRectPos; }
             set
             {
                 if (FrameToShow == null || FrameToShow.Length == 0)
@@ -99,9 +102,7 @@ namespace TestCaseWinforms
 
                 SelectedIndex = GetIndex(value);
 
-                GetCellPos(SelectedIndex);
-
-                Invalidate();
+                GetCellRectPos(SelectedIndex);
             }
         }
         public Keys KeyPos
@@ -133,58 +134,14 @@ namespace TestCaseWinforms
                         break;
                 }
 
-                GetCellPos(SelectedIndex);
-
-                Invalidate();
-            }
-        }
-
-        int GetIndex(Point pos)
-        {
-            //курсор находится в области служ. слов
-            if (_rectService.Contains(pos))
-            {
-                _row = (pos.X - _offsetService.X) / _cellSize.Width;
-                _col = (pos.Y - _offsetService.Y) / _cellSize.Height;
-            }
-
-            //курсор находится в области информ. слов
-            if (_rectData.Contains(pos))
-            {
-                _row = (pos.X - _offsetData.X) / _cellSize.Width + 31;
-                _col = (pos.Y - _offsetData.Y) / _cellSize.Height;
-            }
-
-            return _row + _col * 32;
-        }
-
-        void GetCellPos(int index)
-        {
-            if (_selectedIndex < _wordsServiceCount)
-            {
-                //нормировка
-                _cellPos.X = _offsetService.X - _cellPosShift;
-                _cellPos.Y = _offsetService.Y - _cellPosShift;
-
-                //вычисление позиции для рамки выделения
-                _cellPos.X += _selectedIndex % _frameRowNumber * _cellSize.Width;
-            }
-            else
-            {
-                //нормировка
-                _cellPos.X = _offsetData.X - _cellPosShift;
-                _cellPos.Y = _offsetData.Y - _cellPosShift;
-
-                //вычисление позиции для рамки выделения
-                _cellPos.X += (_selectedIndex - _wordsServiceCount) % _frameRowNumber * _cellSize.Width;
-                _cellPos.Y += (_selectedIndex - _wordsServiceCount) / _frameRowNumber * _cellSize.Height;
+                GetCellRectPos(SelectedIndex);
             }
         }
 
         public FrameViewer()
         {
             InitializeComponent();
-            this.DoubleBuffered = true; //чтобы быстрее отрисовывалось в Control'е
+            Invalidate();
 
             //настройки линии прямоугольника
             _myPen.Width = 1.0F;
@@ -193,9 +150,9 @@ namespace TestCaseWinforms
             this.PreviewKeyDown += controls_PreviewKeyDown;
         }
 
+        //обработка нажатий клавиатуры на Control'e
         private void controls_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
-            //для frameViewer'а
             switch (e.KeyCode)
             {
                 case Keys.Up:
@@ -220,8 +177,8 @@ namespace TestCaseWinforms
                 return;
 
             //рисуем служебную часть кадра
-            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path + " XF:" + _cellPos.X + " YF:"
-                + _cellPos.Y + " Row: " + _row + " Column: " + _col + " Позиция: " + (_selectedIndex + 1),
+            e.Graphics.DrawString("Служебная часть кадра \t Путь файла: " + Path + " XF:" + _cellRectPos.X + " YF:"
+                + _cellRectPos.Y + " Row: " + _row + " Column: " + _col + " Позиция: " + (_selectedIndex + 1),
                 _drawFont,
                 _drawBrushService,
                 _offsetServiceLabel.X,
@@ -257,7 +214,49 @@ namespace TestCaseWinforms
             }
 
             //рисуем прямоугольник выделения
-            e.Graphics.DrawRectangle(_myPen, new Rectangle(_cellPos, _cellSize));
+            e.Graphics.DrawRectangle(_myPen, new Rectangle(_cellRectPos, _cellSize));
+        }
+
+        int GetIndex(Point pos)
+        {
+            //курсор находится в области служ. слов
+            if (_rectService.Contains(pos))
+            {
+                _row = (pos.X - _offsetService.X) / _cellSize.Width;
+                _col = (pos.Y - _offsetService.Y) / _cellSize.Height;
+            }
+
+            //курсор находится в области информ. слов
+            if (_rectData.Contains(pos))
+            {
+                _row = (pos.X - _offsetData.X) / _cellSize.Width + 31;
+                _col = (pos.Y - _offsetData.Y) / _cellSize.Height;
+            }
+
+            return _row + _col * 32;
+        }
+
+        void GetCellRectPos(int index)
+        {
+            if (_selectedIndex < _wordsServiceCount)
+            {
+                //нормировка
+                _cellRectPos.X = _offsetService.X - _cellPosShift;
+                _cellRectPos.Y = _offsetService.Y - _cellPosShift;
+
+                //вычисление позиции для рамки выделения
+                _cellRectPos.X += _selectedIndex % _frameRowNumber * _cellSize.Width;
+            }
+            else
+            {
+                //нормировка
+                _cellRectPos.X = _offsetData.X - _cellPosShift;
+                _cellRectPos.Y = _offsetData.Y - _cellPosShift;
+
+                //вычисление позиции для рамки выделения
+                _cellRectPos.X += (_selectedIndex - _wordsServiceCount) % _frameRowNumber * _cellSize.Width;
+                _cellRectPos.Y += (_selectedIndex - _wordsServiceCount) / _frameRowNumber * _cellSize.Height;
+            }
         }
     }
 }

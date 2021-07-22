@@ -35,6 +35,7 @@ namespace TestCaseWinforms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.DoubleBuffered = true;
             this.Name = "GistoViewer";
             this.Size = new System.Drawing.Size(965, 616);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GistoViewer_Paint);

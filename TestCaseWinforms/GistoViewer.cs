@@ -21,10 +21,9 @@ namespace TestCaseWinforms
         string _radix;
 
         static int _wordsServiceCount = 31;
-
         static int _selectedIndex;
 
-        int _posX = 0, _posY = 0, _gistOffsetX = 32, _gistOffsetY = 50;
+        Point _gistOffset = new Point(32, 50);
 
         Rectangle _borderRectangle = new Rectangle(30, 49, 1026, 515);
 
@@ -91,21 +90,12 @@ namespace TestCaseWinforms
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
 
-                if (value.X >= _gistOffsetX && value.X <= _gistOffsetX + (_frameToShow.Length - 1 - _wordsServiceCount) * _scaleX)
+                if (value.X >= _gistOffset.X && value.X <= _gistOffset.X + (_frameToShow.Length - 1 - _wordsServiceCount) * _scaleX)
                 {
-                    _redLinePosX = (value.X % 2 == 1) ? value.X - 1 - _gistOffsetX : value.X - _gistOffsetX;
-                    //добавить изменение индекса, а отрисовку перенести в Paint
+                    SelectedIndex = _wordsServiceCount + (value.X - _gistOffset.X) / 2;
                 }
-
-                Invalidate();
             }
         }
-
-        private void GistoViewer_MouseClick(object sender, MouseEventArgs e)
-        {
-            this.MousePos = e.Location;
-        }
-
         public Keys KeyPos
         {
             set
@@ -113,16 +103,19 @@ namespace TestCaseWinforms
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
 
-                if (value == Keys.Left && _redLinePosX > 0)
-                    _redLinePosX -= 1 * _scaleX;
+                if (value == Keys.Left && SelectedIndex > _wordsServiceCount)
+                    SelectedIndex--;
 
-                if (value == Keys.Right && _redLinePosX < (_frameToShow.Length - 1 - _wordsServiceCount) * _scaleX)
-                    _redLinePosX += 1 * _scaleX;
+                if (value == Keys.Right && SelectedIndex < FrameToShow.Length - 1)
+                    SelectedIndex++;
 
-                Invalidate();
+                if (value == Keys.Up && SelectedIndex < FrameToShow.Length - 1 - 32)
+                    SelectedIndex += 32;
+
+                if (value == Keys.Down && SelectedIndex > _wordsServiceCount + 32)
+                    SelectedIndex -= 32;
             }
         }
-
         public int SelectedIndex
         {
             get { return _selectedIndex; }
@@ -130,10 +123,10 @@ namespace TestCaseWinforms
             {
                 _selectedIndex = value;
 
+                this.Invalidate();
+
                 if (SelectedIndexChanged != null)
                     SelectedIndexChanged(this, EventArgs.Empty);
-
-                this.Invalidate();
             }
         }
 
@@ -141,24 +134,24 @@ namespace TestCaseWinforms
         {
             InitializeComponent();
             Invalidate();
-            this.DoubleBuffered = true;
+
             _levelLinePen.Width = 1.0F;
             _levelLinePen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
             _borderLinePen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
             _dataLinePen.Width = 1;
 
             this.PreviewKeyDown += controls_PreviewKeyDown;
         }
 
-        private void GistoViewer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
+        //обработка нажатий клавиатуры на Control'e
         private void controls_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
         {
             switch (e.KeyCode)
             {
+                case Keys.Up:
+                case Keys.Down:
                 case Keys.Left:
                 case Keys.Right:
                     this.KeyPos = e.KeyCode;
@@ -168,6 +161,11 @@ namespace TestCaseWinforms
             }
         }
 
+        private void GistoViewer_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.MousePos = e.Location;
+        }
+
         private void GistoViewer_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawRectangle(_borderLinePen, _borderRectangle);
@@ -175,31 +173,36 @@ namespace TestCaseWinforms
             if (FrameToShow == null || FrameToShow.Length == 0)
                 return;
 
+            //отрисовка информационных слов кадра
             for (int i = _wordsServiceCount, j = 0; i < _frameToShow.Length; i++, j += 1 * _scaleX)
             {
                 e.Graphics.DrawLine(
                     _dataLinePen,
-                    new Point(j + _gistOffsetX, 512 + _gistOffsetY),
-                    new Point(j + _gistOffsetX, 512 + _gistOffsetY - ((_frameToShow.frameArray[i] & _param.Mask) >> _param.Offset) * _scaleY)
+                    new Point(j + _gistOffset.X, 512 + _gistOffset.Y),
+                    new Point(j + _gistOffset.X, 512 + _gistOffset.Y - ((_frameToShow.frameArray[i] & _param.Mask) >> _param.Offset) * _scaleY)
                     );
             }
 
-            for (int i = 256, j = 0; i >= 0; i -= 64, j += 64*_scaleY)
-                e.Graphics.DrawString((i).ToString(_radix), _drawFont, _drawBrushService, 0, j + _gistOffsetY - 10);
+            //отрисовка цифр на оси Y
+            for (int i = 256, j = 0; i >= 0; i -= 64, j += 64 * _scaleY)
+                e.Graphics.DrawString((i).ToString(_radix), _drawFont, _drawBrushService, 0, j + _gistOffset.Y - 10);
 
-            for (int i = 64 * _scaleY; i < 512 - 64; i+= 64 * _scaleY)
-                e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffsetX, i + _gistOffsetY), new Point(1025 + _gistOffsetX, i + _gistOffsetY));
+            //отрисовка линий уровней данных
+            for (int i = 64 * _scaleY; i < 512 - 64; i += 64 * _scaleY)
+                e.Graphics.DrawLine(_levelLinePen, new Point(0 + _gistOffset.X, i + _gistOffset.Y), new Point(1025 + _gistOffset.X, i + _gistOffset.Y));
 
             //рисуем красную линию
-            _redLineValue = (_frameToShow.frameArray[_redLinePosX / _scaleX + _wordsServiceCount] & _param.Mask) >> _param.Offset;
-            e.Graphics.DrawLine(
-                    _redLinePen,
-                    new Point(_redLinePosX + _gistOffsetX, 512 + _gistOffsetY),
-                    new Point(_redLinePosX + _gistOffsetX, 512 + _gistOffsetY - (_redLineValue * _scaleY))
-                    );
+            _redLinePosX = _gistOffset.X + (SelectedIndex - _wordsServiceCount) * _scaleX;
+            _redLineValue = ((_frameToShow.frameArray[SelectedIndex] & _param.Mask) >> _param.Offset) * _scaleY;
+            if (SelectedIndex >= _wordsServiceCount)
+                e.Graphics.DrawLine(
+                        _redLinePen,
+                        new Point(_redLinePosX, 512 + _gistOffset.Y),
+                        new Point(_redLinePosX, 512 + _gistOffset.Y - _redLineValue)
+                        );
 
             //рисуем путь файла, координаты мышки и значение выделенной позиции
-            gistoText = "Путь файла: " + Path + " Значение слова:" + _redLineValue.ToString(_radix);
+            gistoText = "Путь файла: " + Path + " Позиция: " + (_selectedIndex + 1) + " Значение слова: " + _redLineValue.ToString(_radix);
             e.Graphics.DrawString(gistoText, _drawFont, _drawBrushService, 0, 0);
         }
     }
