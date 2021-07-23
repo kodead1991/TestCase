@@ -56,7 +56,10 @@ namespace TestCaseWinforms
         private void FrameViewer_SelectIndexToDraw(object sender, EventArgs e)
         {
             //this.framePosBox.Items.Add(this.frameViewer.SelectedIndex);
-            this.framePosBox.Items.Add(new FramePosViewInfo(this.frameViewer.SelectedIndex));
+            //FramePosViewInfo f = new FramePosViewInfo(this.frameViewer.SelectedIndex);
+
+            //if (this.framePosBox.Items.Contains(f) == false)
+                this.framePosBox.Items.Add(new FramePosViewInfo(this.frameViewer.SelectedIndex));
             
             this.framePosBox.DrawMode = DrawMode.OwnerDrawFixed;
             this.framePosBox.Invalidate();
