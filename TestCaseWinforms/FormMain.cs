@@ -20,6 +20,8 @@ namespace TestCaseWinforms
 
         List<Frame> frames;
 
+        public event EventHandler RemoveCheckedCell;
+
         public FormMain()
         {
             InitializeComponent();
@@ -41,10 +43,17 @@ namespace TestCaseWinforms
             this.framePosBox.SelectionMode = SelectionMode.One;
 
             this.frameViewer.SelectedIndexChanged += FrameViewer_SelectedIndexChanged;
-            this.frameViewer.SelectIndexToDraw += FrameViewer_SelectIndexToDraw;
+            this.frameViewer.AddItemToFramePosBox += FrameViewer_AddItemToFramePosBox;
             this.gistoViewer.SelectedIndexChanged += GistoViewer_SelectedIndexChanged;
 
             this.framePosViewer.LinesInfoNeeded += OnFramePosViewerOnLinesInfoNeeded;
+            this.RemoveCheckedCell += FormMain_RemoveCheckedCell;
+            this.frameViewer.RemoveUncheckedPos += FrameViewer_RemoveUncheckedPos;
+        }
+
+        private void FormMain_RemoveCheckedCell(object sender, EventArgs e)
+        {
+            this.frameViewer.cellChecked[this.framePosViewer.ListBoxSelectedIndex] = false;
         }
 
         //обработка события запроса списка из listBox'a
@@ -53,19 +62,39 @@ namespace TestCaseWinforms
             args.Info = framePosBox.Items.Cast<FramePosViewInfo>().ToArray();
         }
 
-        private void FrameViewer_SelectIndexToDraw(object sender, EventArgs e)
+        //добавление элемента из listBox'a по двойному клику на frameViewer'e
+        private void FrameViewer_AddItemToFramePosBox(object sender, EventArgs e)
         {
-            //this.framePosBox.Items.Add(this.frameViewer.SelectedIndex);
-            //FramePosViewInfo f = new FramePosViewInfo(this.frameViewer.SelectedIndex);
+            var newItem = new FramePosViewInfo(this.frameViewer.SelectedIndex);
 
-            //if (this.framePosBox.Items.Contains(f) == false)
-                this.framePosBox.Items.Add(new FramePosViewInfo(this.frameViewer.SelectedIndex));
-            
-            this.framePosBox.DrawMode = DrawMode.OwnerDrawFixed;
+            //проверка на повтор позиции в listBox'e
+            for (int i = 0; i < this.framePosBox.Items.Count; i++)
+            {
+                var currentItem = (FramePosViewInfo)this.framePosBox.Items[i];
+                if (currentItem.FrameIndex == newItem.FrameIndex)
+                    return;
+            }
+
+            this.framePosBox.Items.Add(newItem);
             this.framePosBox.Invalidate();
-            //this.framePosBox.DrawItem += new DrawItemEventHandler(FramePosBox_DrawItem);
-            //this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
+        }
 
+        //удаление элемента из listBox'a по двойному клику на frameViewer'e
+        private void FrameViewer_RemoveUncheckedPos(object sender, EventArgs e)
+        {
+            for (int i = 0; i < this.framePosBox.Items.Count; i++)
+            {
+                var item = (FramePosViewInfo)(this.framePosBox.Items[i]);
+                if (item.FrameIndex == this.frameViewer.SelectedIndex)
+                {
+                    this.framePosBox.Items.RemoveAt(i);
+
+                    this.framePosViewer.ListBoxSelectedIndex = -1;
+                    this.framePosBox.Invalidate();
+                    this.framePosViewer.Invalidate();
+                    this.frameViewer.Invalidate();
+                }
+            }
         }
 
         private void FrameViewer_SelectedIndexChanged(object sender, EventArgs e)
@@ -112,6 +141,7 @@ namespace TestCaseWinforms
             this.frameViewer.FrameToShow = this.gistoViewer.FrameToShow = frames[0]; //передача массива кадров в Control отоборажения кадра
             this.frameViewer.Param = this.gistoViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
             this.frameViewer.Radix = this.gistoViewer.Radix = "X3";
+            this.frameViewer.cellChecked = new bool[wordNumber];
 
             this.gistoViewer.Param = this.gistoViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
             this.gistoViewer.Radix = this.gistoViewer.Radix = "X3";
@@ -143,7 +173,7 @@ namespace TestCaseWinforms
         }
 
         //перерисовка кадра в выбранном формате (HEX/DEC) из-за изменения формата отображения
-        private void RadioButtonHEX_CheckedChanged(object sender, EventArgs e)
+        private void RadioButtonRadix_CheckedChanged(object sender, EventArgs e)
         {
             if (this.radioButtonHEX.Checked == true)
             {
@@ -176,7 +206,6 @@ namespace TestCaseWinforms
             this.framePosBox.DrawItem += new DrawItemEventHandler(FramePosBox_DrawItem);
         }
 
-        //отрисовка элементов в listBox'e
         private void FramePosBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             if (e.Index < 0)
@@ -219,7 +248,7 @@ namespace TestCaseWinforms
             }
         }
 
-        //удаление элемента из listBox'a
+        //удаление элемента из listBox'a по двойному клику на listBox
         private void FramePosBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (this.framePosBox.SelectedItem == null)
@@ -229,9 +258,14 @@ namespace TestCaseWinforms
             if (itemRect.Contains(e.Location))
             {
                 this.framePosBox.Items.RemoveAt(this.framePosBox.SelectedIndex);
+
+                if (RemoveCheckedCell != null)
+                    RemoveCheckedCell(this, EventArgs.Empty);
+
                 this.framePosViewer.ListBoxSelectedIndex = -1;
                 this.framePosBox.Invalidate();
                 this.framePosViewer.Invalidate();
+                this.frameViewer.Invalidate();
             }
         }
     }

@@ -39,13 +39,17 @@ namespace TestCaseWinforms
         static Rectangle _rectData = new Rectangle(_offsetData, new Size(40 * 32, 20 * 16));
 
         Pen _myPen = new Pen(Brushes.DeepSkyBlue);
+        Pen _checkedCellPen = new Pen(Brushes.DarkRed);
 
-        Point _cellRectPos = new Point(_offsetService.X - _cellPosShift, _offsetService.Y - _cellPosShift);
-
+        Point _cellRectPos;
+        Point _cellRectPosChecked;
         int _row, _col;
 
+        public bool[] cellChecked;
+
         public event EventHandler SelectedIndexChanged;
-        public event EventHandler SelectIndexToDraw;
+        public event EventHandler AddItemToFramePosBox;
+        public event EventHandler RemoveUncheckedPos;
 
         public Frame FrameToShow
         {
@@ -64,7 +68,12 @@ namespace TestCaseWinforms
             {
                 if (FrameToShow == null || FrameToShow.Length == 0)
                     return;
+
                 _param = value;
+
+                _cellRectPos = new Point(_offsetService.X - _cellPosShift, _offsetService.Y - _cellPosShift);
+                _cellRectPosChecked = new Point(_offsetService.X - _cellPosShift, _offsetService.Y - _cellPosShift);
+
                 Invalidate();
             }
         }
@@ -85,7 +94,7 @@ namespace TestCaseWinforms
             set
             {
                 _selectedIndex = value;
-                GetCellRectPos(_selectedIndex);
+                _cellRectPos = GetCellRectPos(_selectedIndex);
 
                 this.Invalidate();
 
@@ -103,7 +112,7 @@ namespace TestCaseWinforms
 
                 SelectedIndex = GetIndex(value);
 
-                GetCellRectPos(SelectedIndex);
+                _cellRectPos = GetCellRectPos(SelectedIndex);
             }
         }
         public Keys KeyPos
@@ -135,7 +144,7 @@ namespace TestCaseWinforms
                         break;
                 }
 
-                GetCellRectPos(SelectedIndex);
+                _cellRectPos = GetCellRectPos(SelectedIndex);
             }
         }
 
@@ -147,6 +156,9 @@ namespace TestCaseWinforms
             //настройки линии прямоугольника
             _myPen.Width = 1.0F;
             _myPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+
+            _checkedCellPen.Width = 1.0F;
+            _checkedCellPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
 
             this.PreviewKeyDown += controls_PreviewKeyDown;
         }
@@ -214,6 +226,11 @@ namespace TestCaseWinforms
                     _offsetData.Y + row * _cellSize.Height);
             }
 
+            //рисуем прямоугольники выделенных позиций для графика
+            for (int i = 0; i < FrameToShow.Length; i++)
+                if (cellChecked[i])
+                    e.Graphics.DrawRectangle(_checkedCellPen, new Rectangle(GetCellRectPos(i), _cellSize));
+
             //рисуем прямоугольник выделения
             e.Graphics.DrawRectangle(_myPen, new Rectangle(_cellRectPos, _cellSize));
         }
@@ -237,33 +254,49 @@ namespace TestCaseWinforms
             return _row + _col * 32;
         }
 
+        //меняем флаг выделения позиции на противоположный
         private void FramePosBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (SelectIndexToDraw != null)
-                SelectIndexToDraw(this, EventArgs.Empty);
+            if (FrameToShow == null || FrameToShow.Length == 0)
+                return;
+
+            cellChecked[SelectedIndex] = !cellChecked[SelectedIndex];
+
+            //создаём событие на удаление выделения позиции кадра (для listBox'a)
+            if (cellChecked[SelectedIndex] == false)
+                if (RemoveUncheckedPos != null)
+                    RemoveUncheckedPos(this, EventArgs.Empty);              
+
+            //создаём событие на отрисовку
+            if (AddItemToFramePosBox != null)
+                AddItemToFramePosBox(this, EventArgs.Empty);
         }
 
-        void GetCellRectPos(int index)
+        Point GetCellRectPos(int index)
         {
-            if (_selectedIndex < _wordsServiceCount)
+            Point pos = new Point(0, 0);
+
+            if (index < _wordsServiceCount)
             {
                 //нормировка
-                _cellRectPos.X = _offsetService.X - _cellPosShift;
-                _cellRectPos.Y = _offsetService.Y - _cellPosShift;
+                pos.X = _offsetService.X - _cellPosShift;
+                pos.Y = _offsetService.Y - _cellPosShift;
 
                 //вычисление позиции для рамки выделения
-                _cellRectPos.X += _selectedIndex % _frameRowNumber * _cellSize.Width;
+                pos.X += index % _frameRowNumber * _cellSize.Width;
             }
             else
             {
                 //нормировка
-                _cellRectPos.X = _offsetData.X - _cellPosShift;
-                _cellRectPos.Y = _offsetData.Y - _cellPosShift;
+                pos.X = _offsetData.X - _cellPosShift;
+                pos.Y = _offsetData.Y - _cellPosShift;
 
                 //вычисление позиции для рамки выделения
-                _cellRectPos.X += (_selectedIndex - _wordsServiceCount) % _frameRowNumber * _cellSize.Width;
-                _cellRectPos.Y += (_selectedIndex - _wordsServiceCount) / _frameRowNumber * _cellSize.Height;
+                pos.X += (index - _wordsServiceCount) % _frameRowNumber * _cellSize.Width;
+                pos.Y += (index - _wordsServiceCount) / _frameRowNumber * _cellSize.Height;
             }
+
+            return pos;
         }
     }
 }

@@ -115,7 +115,7 @@ namespace TestCaseWinforms
             this.radioButtonHEX.TabStop = true;
             this.radioButtonHEX.Text = "HEX";
             this.radioButtonHEX.UseVisualStyleBackColor = true;
-            this.radioButtonHEX.CheckedChanged += new System.EventHandler(this.RadioButtonHEX_CheckedChanged);
+            this.radioButtonHEX.CheckedChanged += new System.EventHandler(this.RadioButtonRadix_CheckedChanged);
             // 
             // radioButtonDEC
             // 
