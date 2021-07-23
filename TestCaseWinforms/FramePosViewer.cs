@@ -124,7 +124,7 @@ namespace TestCaseWinforms
                 return;
 
             //позиция кадра относительно положения мышки
-            var framePos = (MousePos.X - _drawOffset.X) / 2 - _startFramePos;
+            var framePos = (MousePos.X - _drawOffset.X) / 2 + _startFramePos;
 
             if (this._borderRectangle.Contains(MousePos))
             {

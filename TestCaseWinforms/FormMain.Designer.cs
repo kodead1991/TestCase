@@ -78,7 +78,7 @@ namespace TestCaseWinforms
             this.currentFrameNumber.Font = new System.Drawing.Font("Courier New", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.currentFrameNumber.Location = new System.Drawing.Point(1271, 732);
             this.currentFrameNumber.Name = "currentFrameNumber";
-            this.currentFrameNumber.Size = new System.Drawing.Size(66, 24);
+            this.currentFrameNumber.Size = new System.Drawing.Size(107, 24);
             this.currentFrameNumber.TabIndex = 3;
             this.currentFrameNumber.Text = "1";
             this.currentFrameNumber.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -88,7 +88,7 @@ namespace TestCaseWinforms
             this.frameLabel.Font = new System.Drawing.Font("Courier New", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.frameLabel.Location = new System.Drawing.Point(1267, 706);
             this.frameLabel.Name = "frameLabel";
-            this.frameLabel.Size = new System.Drawing.Size(70, 26);
+            this.frameLabel.Size = new System.Drawing.Size(111, 26);
             this.frameLabel.TabIndex = 4;
             this.frameLabel.Text = "КАДР";
             this.frameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
