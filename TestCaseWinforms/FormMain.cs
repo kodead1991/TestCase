@@ -20,8 +20,6 @@ namespace TestCaseWinforms
 
         List<Frame> frames;
 
-        List<FramePosViewInfo> listFramePos;
-
         public FormMain()
         {
             InitializeComponent();
@@ -46,15 +44,13 @@ namespace TestCaseWinforms
             this.frameViewer.SelectIndexToDraw += FrameViewer_SelectIndexToDraw;
             this.gistoViewer.SelectedIndexChanged += GistoViewer_SelectedIndexChanged;
 
-            this.listFramePos = new List<FramePosViewInfo>();
+            this.framePosViewer.LinesInfoNeeded += OnFramePosViewerOnLinesInfoNeeded;
         }
 
-        private void FrameViewer_SelectedIndexChanged(object sender, EventArgs e)
+        //обработка события запроса списка из listBox'a
+        private void OnFramePosViewerOnLinesInfoNeeded(object o, ChartLinesEventArgs args)
         {
-            if (this.gistoViewer.SelectedIndex != this.frameViewer.SelectedIndex)
-            {
-                this.gistoViewer.SelectedIndex = this.frameViewer.SelectedIndex;
-            }
+            args.Info = framePosBox.Items.Cast<FramePosViewInfo>().ToArray();
         }
 
         private void FrameViewer_SelectIndexToDraw(object sender, EventArgs e)
@@ -67,6 +63,14 @@ namespace TestCaseWinforms
             //this.framePosBox.DrawItem += new DrawItemEventHandler(FramePosBox_DrawItem);
             //this.frameViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
 
+        }
+
+        private void FrameViewer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.gistoViewer.SelectedIndex != this.frameViewer.SelectedIndex)
+            {
+                this.gistoViewer.SelectedIndex = this.frameViewer.SelectedIndex;
+            }
         }
 
         private void GistoViewer_SelectedIndexChanged(object sender, EventArgs e)
@@ -172,22 +176,60 @@ namespace TestCaseWinforms
         //отрисовка элементов в listBox'e
         private void FramePosBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (this.frameViewer.FrameToShow == null || this.frameViewer.FrameToShow.Length == 0)
+            if (e.Index < 0)
                 return;
 
-            
             FramePosViewInfo f = (FramePosViewInfo)this.framePosBox.Items[e.Index];
 
+            //отрисовка номера выбранной позиции
             e.Graphics.DrawString(f.FrameIndex.ToString(),
                 e.Font, f.FrameIndexBrush, e.Bounds, StringFormat.GenericDefault);
 
             Pen myPen = new Pen(f.FrameIndexBrush);
             myPen.Width = 2.0F;
+
+            //отрисовка примера линии
             e.Graphics.DrawLine(myPen, 25, 5 + e.Index * 13, 100, 6 + e.Index * 13);
 
-            
+            //проверка на наличие элементов в listBox'e
+            if (this.framePosBox.SelectedItem == null)
+                return;
+
+            //отрисовка прямоугольника выделения в listBox'e
+            Rectangle itemRect = this.framePosBox.GetItemRectangle(this.framePosBox.SelectedIndex);
+            e.Graphics.DrawRectangle(new Pen(Color.Black), itemRect);
+
         }
 
+        //выбор элемента в listBox'e
+        private void FramePosBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (this.framePosBox.SelectedItem == null)
+                return;
 
+            Rectangle itemRect = this.framePosBox.GetItemRectangle(this.framePosBox.SelectedIndex);
+            if (itemRect.Contains(e.Location))
+            {
+                var framePosInfo = (FramePosViewInfo)this.framePosBox.Items[this.framePosBox.SelectedIndex];
+                this.framePosViewer.ListBoxSelectedIndex = framePosInfo.FrameIndex;
+                this.framePosBox.Invalidate();
+            }
+        }
+
+        //удаление элемента из listBox'a
+        private void FramePosBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (this.framePosBox.SelectedItem == null)
+                return;
+
+            Rectangle itemRect = this.framePosBox.GetItemRectangle(this.framePosBox.SelectedIndex);
+            if (itemRect.Contains(e.Location))
+            {
+                this.framePosBox.Items.RemoveAt(this.framePosBox.SelectedIndex);
+                this.framePosViewer.ListBoxSelectedIndex = -1;
+                this.framePosBox.Invalidate();
+                this.framePosViewer.Invalidate();
+            }
+        }
     }
 }

@@ -227,14 +227,22 @@ namespace TestCaseWinforms
             this.framePosBox.Name = "framePosBox";
             this.framePosBox.Size = new System.Drawing.Size(149, 615);
             this.framePosBox.TabIndex = 1;
+            this.framePosBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FramePosBox_MouseClick);
             this.framePosBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.FramePosBox_DrawItem);
             this.framePosBox.SelectedIndexChanged += new System.EventHandler(this.FramePosBox_SelectedIndexChanged);
+            this.framePosBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.FramePosBox_MouseDoubleClick);
             // 
             // framePosViewer
             // 
+            this.framePosViewer.Frames = null;
+            this.framePosViewer.ListBoxSelectedIndex = -1;
             this.framePosViewer.Location = new System.Drawing.Point(159, 6);
+            this.framePosViewer.MousePos = new System.Drawing.Point(0, 0);
             this.framePosViewer.Name = "framePosViewer";
+            this.framePosViewer.Param = null;
+            this.framePosViewer.Radix = null;
             this.framePosViewer.Size = new System.Drawing.Size(1237, 612);
+            this.framePosViewer.StartFramePos = 0;
             this.framePosViewer.TabIndex = 0;
             // 
             // FormMain

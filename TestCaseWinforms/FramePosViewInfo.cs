@@ -7,12 +7,24 @@ using System.Drawing;
 
 namespace TestCaseWinforms
 {
-    class FramePosViewInfo
+    public class FramePosViewInfo
     {
-        static int colorNumber = -1;
+        static int colorNumber = 0;
         int _frameIndex;
         Brush _frameIndexBrush;
-        Color[] colors = new Color[] { Color.Red, Color.Green, Color.Blue, Color.DarkOrange, Color.DeepPink, Color.DarkMagenta, Color.DarkViolet, Color.Olive, Color.Gold, Color.Gray };
+        Color[] colors = new Color[] 
+        {
+            Color.Red,
+            Color.Green,
+            Color.Blue,
+            Color.DarkOrange,
+            Color.DeepPink,
+            Color.DarkMagenta,
+            Color.DarkViolet,
+            Color.Olive,
+            Color.Gold,
+            Color.Gray
+        };
 
         public int FrameIndex
         {
@@ -28,7 +40,7 @@ namespace TestCaseWinforms
         public FramePosViewInfo(int index)
         {
             _frameIndex = index;
-            _frameIndexBrush = new SolidBrush(colors[index++ % colors.Length]);
+            _frameIndexBrush = new SolidBrush(colors[colorNumber++ % colors.Length]);
         }
     }
 }

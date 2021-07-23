@@ -38,6 +38,7 @@
             this.Name = "FramePosViewer";
             this.Size = new System.Drawing.Size(965, 616);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.FramePosViewer_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FramePosViewer_MouseMove);
             this.ResumeLayout(false);
 
         }
