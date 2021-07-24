@@ -265,11 +265,12 @@ namespace TestCaseWinforms
             //создаём событие на удаление выделения позиции кадра (для listBox'a)
             if (cellChecked[SelectedIndex] == false)
                 if (RemoveUncheckedPos != null)
-                    RemoveUncheckedPos(this, EventArgs.Empty);              
+                    RemoveUncheckedPos(this, EventArgs.Empty);
 
             //создаём событие на отрисовку
-            if (AddItemToFramePosBox != null)
-                AddItemToFramePosBox(this, EventArgs.Empty);
+            if (cellChecked[SelectedIndex] == true)
+                if (AddItemToFramePosBox != null)
+                    AddItemToFramePosBox(this, EventArgs.Empty);
         }
 
         Point GetCellRectPos(int index)

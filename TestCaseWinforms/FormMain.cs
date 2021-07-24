@@ -88,11 +88,7 @@ namespace TestCaseWinforms
                 if (item.FrameIndex == this.frameViewer.SelectedIndex)
                 {
                     this.framePosBox.Items.RemoveAt(i);
-
-                    this.framePosViewer.ListBoxSelectedIndex = -1;
-                    this.framePosBox.Invalidate();
-                    this.framePosViewer.Invalidate();
-                    this.frameViewer.Invalidate();
+                    Invalidate();
                 }
             }
         }
@@ -208,8 +204,16 @@ namespace TestCaseWinforms
 
         private void FramePosBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index < 0)
+            //if (e.Index < 0)
+            //    return;
+
+            //проверка на наличие элементов в listBox'e
+            if (this.framePosBox.Items.Count == 0)
+            {
+                //this.framePosBox.Items.Clear();
                 return;
+            }    
+                
 
             FramePosViewInfo f = (FramePosViewInfo)this.framePosBox.Items[e.Index];
 
@@ -223,7 +227,7 @@ namespace TestCaseWinforms
             //отрисовка примера линии
             e.Graphics.DrawLine(myPen, 25, 5 + e.Index * 13, 100, 6 + e.Index * 13);
 
-            //проверка на наличие элементов в listBox'e
+            //проверка на выделение элемента в listBox'e
             if (this.framePosBox.SelectedItem == null)
                 return;
 
