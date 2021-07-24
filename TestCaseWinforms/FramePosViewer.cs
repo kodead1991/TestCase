@@ -79,19 +79,16 @@ namespace TestCaseWinforms
             get { return _startFramePos; }
             set { _startFramePos = value; this.Invalidate(); }
         }
-
         public Point MousePos
         {
             get { return _mousePos; }
             set { _mousePos = value; this.Invalidate(); }
         }
-
         public int ListBoxSelectedIndex
         {
             get { return _listBoxSelectedIndex; }
             set { _listBoxSelectedIndex = value; this.Invalidate(); }
         }
-
         public int ViewScale
         {
             set { _scaleX = _scaleY = value; this.Invalidate(); }
@@ -111,6 +108,7 @@ namespace TestCaseWinforms
             _scaleX = _scaleY = 1;
         }
 
+        //отрисовка элементов на control'е
         private void FramePosViewer_Paint(object sender, PaintEventArgs e)
         {
             //отрисовка цифр на оси Y
@@ -200,11 +198,13 @@ namespace TestCaseWinforms
             }
         }
 
+        //обработка события перемещения курсора по control'у
         private void FramePosViewer_MouseMove(object sender, MouseEventArgs e)
         {
             this.MousePos = e.Location;
         }
 
+        //обработка события изменения масштаба отображения через кнопки на форме
         private void scale_CheckedChanged(object sender, EventArgs e)
         {
             if (this.scaleX1.Checked)

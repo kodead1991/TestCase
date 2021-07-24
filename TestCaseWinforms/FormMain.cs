@@ -27,6 +27,7 @@ namespace TestCaseWinforms
             InitializeComponent();
         }
 
+        //инициализация главной формы при включении программы
         private void FormMain_Load(object sender, EventArgs e)
         {
             this.comboBoxWordFormat.Items.AddRange(new object[] {
@@ -43,12 +44,15 @@ namespace TestCaseWinforms
             this.framePosBox.SelectionMode = SelectionMode.One;
 
             this.frameViewer.SelectedIndexChanged += FrameViewer_SelectedIndexChanged;
-            this.frameViewer.AddItemToFramePosBox += FrameViewer_AddItemToFramePosBox;
+            this.frameViewer.AddСheckedPos += FrameViewer_AddСheckedPos;
+            this.frameViewer.RemoveСheckedPos += FrameViewer_RemoveСheckedPos;
+
             this.gistoViewer.SelectedIndexChanged += GistoViewer_SelectedIndexChanged;
 
             this.framePosViewer.LinesInfoNeeded += OnFramePosViewerOnLinesInfoNeeded;
+
             this.RemoveCheckedCell += FormMain_RemoveCheckedCell;
-            this.frameViewer.RemoveUncheckedPos += FrameViewer_RemoveUncheckedPos;
+            
         }
 
         private void FormMain_RemoveCheckedCell(object sender, EventArgs e)
@@ -63,7 +67,7 @@ namespace TestCaseWinforms
         }
 
         //добавление элемента из listBox'a по двойному клику на frameViewer'e
-        private void FrameViewer_AddItemToFramePosBox(object sender, EventArgs e)
+        private void FrameViewer_AddСheckedPos(object sender, EventArgs e)
         {
             var newItem = new FramePosViewInfo(this.frameViewer.SelectedIndex);
 
@@ -80,7 +84,7 @@ namespace TestCaseWinforms
         }
 
         //удаление элемента из listBox'a по двойному клику на frameViewer'e
-        private void FrameViewer_RemoveUncheckedPos(object sender, EventArgs e)
+        private void FrameViewer_RemoveСheckedPos(object sender, EventArgs e)
         {
             for (int i = 0; i < this.framePosBox.Items.Count; i++)
             {

@@ -48,8 +48,8 @@ namespace TestCaseWinforms
         public bool[] cellChecked;
 
         public event EventHandler SelectedIndexChanged;
-        public event EventHandler AddItemToFramePosBox;
-        public event EventHandler RemoveUncheckedPos;
+        public event EventHandler AddСheckedPos;
+        public event EventHandler RemoveСheckedPos;
 
         public Frame FrameToShow
         {
@@ -264,13 +264,13 @@ namespace TestCaseWinforms
 
             //создаём событие на удаление выделения позиции кадра (для listBox'a)
             if (cellChecked[SelectedIndex] == false)
-                if (RemoveUncheckedPos != null)
-                    RemoveUncheckedPos(this, EventArgs.Empty);
+                if (RemoveСheckedPos != null)
+                    RemoveСheckedPos(this, EventArgs.Empty);
 
             //создаём событие на отрисовку
             if (cellChecked[SelectedIndex] == true)
-                if (AddItemToFramePosBox != null)
-                    AddItemToFramePosBox(this, EventArgs.Empty);
+                if (AddСheckedPos != null)
+                    AddСheckedPos(this, EventArgs.Empty);
         }
 
         Point GetCellRectPos(int index)
