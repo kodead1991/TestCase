@@ -254,7 +254,7 @@ namespace TestCaseWinforms
             return _row + _col * 32;
         }
 
-        //меняем флаг выделения позиции на противоположный
+        //установка/снятие выделения позиции кадра
         private void FramePosBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (FrameToShow == null || FrameToShow.Length == 0)

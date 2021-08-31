@@ -250,7 +250,7 @@ namespace TestCaseWinforms
             Rectangle itemRect = this.framePosBox.GetItemRectangle(this.framePosBox.SelectedIndex);
             if (itemRect.Contains(e.Location))
             {
-                var framePosInfo = (FramePosViewInfo)this.framePosBox.Items[this.framePosBox.SelectedIndex];
+                var framePosInfo = (FramePosViewInfo) this.framePosBox.Items[this.framePosBox.SelectedIndex];
                 this.framePosViewer.ListBoxSelectedIndex = framePosInfo.FrameIndex;
                 this.framePosBox.Invalidate();
             }
@@ -275,6 +275,50 @@ namespace TestCaseWinforms
                 this.framePosViewer.Invalidate();
                 this.frameViewer.Invalidate();
             }
+        }
+
+        private void AddKadrPosView_Click(object sender, EventArgs e)
+        {
+            
+
+            var colorSelectDialog = new ColorDialog();
+            if (colorSelectDialog.ShowDialog() == DialogResult.OK)
+            {
+                var newItem = new FramePosViewInfo(this.frameViewer.SelectedIndex, colorSelectDialog.Color);
+
+                //проверка на повтор позиции в listBox'e
+                for (int i = 0; i < this.framePosBox.Items.Count; i++)
+                {
+                    var currentItem = (FramePosViewInfo)this.framePosBox.Items[i];
+                    if (currentItem.FrameIndex == newItem.FrameIndex)
+                        return;
+                }
+
+                this.framePosBox.Items.Add(newItem);
+                this.framePosBox.Invalidate();
+            }
+        }
+
+        private void DeleteKadrPosView_Click(object sender, EventArgs e)
+        {
+            if (this.framePosBox.SelectedItem == null)
+            {
+                MessageBox.Show("Позиция кадра не выбрана!", "Сообщение об ошибке", MessageBoxButtons.OK);
+                return;
+            }
+                
+
+            Rectangle itemRect = this.framePosBox.GetItemRectangle(this.framePosBox.SelectedIndex);
+
+            this.framePosBox.Items.RemoveAt(this.framePosBox.SelectedIndex);
+
+            if (RemoveCheckedCell != null)
+                RemoveCheckedCell(this, EventArgs.Empty);
+
+            this.framePosViewer.ListBoxSelectedIndex = -1;
+            this.framePosBox.Invalidate();
+            this.framePosViewer.Invalidate();
+            this.frameViewer.Invalidate();
         }
     }
 }

@@ -42,5 +42,11 @@ namespace TestCaseWinforms
             _frameIndex = index;
             _frameIndexBrush = new SolidBrush(colors[colorNumber++ % colors.Length]);
         }
+
+        public FramePosViewInfo(int index, Color color)
+        {
+            _frameIndex = index;
+            _frameIndexBrush = new SolidBrush(color);
+        }
     }
 }

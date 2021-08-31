@@ -43,8 +43,10 @@ namespace TestCaseWinforms
             this.gistoView = new System.Windows.Forms.TabPage();
             this.gistoViewer = new TestCaseWinforms.GistoViewer();
             this.framePosView = new System.Windows.Forms.TabPage();
+            this.addKadrPosView = new System.Windows.Forms.Button();
             this.framePosBox = new System.Windows.Forms.ListBox();
             this.framePosViewer = new TestCaseWinforms.FramePosViewer();
+            this.deleteKadrPosView = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.frameTrackBar)).BeginInit();
             this.tabControl.SuspendLayout();
             this.frameView.SuspendLayout();
@@ -209,6 +211,8 @@ namespace TestCaseWinforms
             // 
             // framePosView
             // 
+            this.framePosView.Controls.Add(this.deleteKadrPosView);
+            this.framePosView.Controls.Add(this.addKadrPosView);
             this.framePosView.Controls.Add(this.framePosBox);
             this.framePosView.Controls.Add(this.framePosViewer);
             this.framePosView.Location = new System.Drawing.Point(4, 22);
@@ -219,13 +223,23 @@ namespace TestCaseWinforms
             this.framePosView.Text = "График";
             this.framePosView.UseVisualStyleBackColor = true;
             // 
+            // addKadrPosView
+            // 
+            this.addKadrPosView.Location = new System.Drawing.Point(6, 560);
+            this.addKadrPosView.Name = "addKadrPosView";
+            this.addKadrPosView.Size = new System.Drawing.Size(147, 23);
+            this.addKadrPosView.TabIndex = 2;
+            this.addKadrPosView.Text = "Добавить позицию кадра";
+            this.addKadrPosView.UseVisualStyleBackColor = true;
+            this.addKadrPosView.Click += new System.EventHandler(this.AddKadrPosView_Click);
+            // 
             // framePosBox
             // 
             this.framePosBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.framePosBox.FormattingEnabled = true;
             this.framePosBox.Location = new System.Drawing.Point(4, 4);
             this.framePosBox.Name = "framePosBox";
-            this.framePosBox.Size = new System.Drawing.Size(149, 615);
+            this.framePosBox.Size = new System.Drawing.Size(149, 550);
             this.framePosBox.TabIndex = 1;
             this.framePosBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.FramePosBox_MouseClick);
             this.framePosBox.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.FramePosBox_DrawItem);
@@ -244,6 +258,16 @@ namespace TestCaseWinforms
             this.framePosViewer.Size = new System.Drawing.Size(1237, 612);
             this.framePosViewer.StartFramePos = 0;
             this.framePosViewer.TabIndex = 0;
+            // 
+            // deleteKadrPosView
+            // 
+            this.deleteKadrPosView.Location = new System.Drawing.Point(6, 589);
+            this.deleteKadrPosView.Name = "deleteKadrPosView";
+            this.deleteKadrPosView.Size = new System.Drawing.Size(147, 23);
+            this.deleteKadrPosView.TabIndex = 3;
+            this.deleteKadrPosView.Text = "Удалить позицию кадра";
+            this.deleteKadrPosView.UseVisualStyleBackColor = true;
+            this.deleteKadrPosView.Click += new System.EventHandler(this.DeleteKadrPosView_Click);
             // 
             // FormMain
             // 
@@ -292,6 +316,8 @@ namespace TestCaseWinforms
         private System.Windows.Forms.TabPage framePosView;
         private FramePosViewer framePosViewer;
         private System.Windows.Forms.ListBox framePosBox;
+        private System.Windows.Forms.Button addKadrPosView;
+        private System.Windows.Forms.Button deleteKadrPosView;
     }
 }
 
