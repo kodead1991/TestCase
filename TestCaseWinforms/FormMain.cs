@@ -279,22 +279,21 @@ namespace TestCaseWinforms
 
         private void AddKadrPosView_Click(object sender, EventArgs e)
         {
-            
+            var addKadrPosDialog = new FramePosDialog();
 
-            var colorSelectDialog = new ColorDialog();
-            if (colorSelectDialog.ShowDialog() == DialogResult.OK)
+            if (addKadrPosDialog.ShowDialog() == DialogResult.OK)
             {
-                var newItem = new FramePosViewInfo(this.frameViewer.SelectedIndex, colorSelectDialog.Color);
+                //var newItem = new FramePosViewInfo(this.frameViewer.SelectedIndex);
 
-                //проверка на повтор позиции в listBox'e
-                for (int i = 0; i < this.framePosBox.Items.Count; i++)
-                {
-                    var currentItem = (FramePosViewInfo)this.framePosBox.Items[i];
-                    if (currentItem.FrameIndex == newItem.FrameIndex)
-                        return;
-                }
+                ////проверка на повтор позиции в listBox'e
+                //for (int i = 0; i < this.framePosBox.Items.Count; i++)
+                //{
+                //    var currentItem = (FramePosViewInfo)this.framePosBox.Items[i];
+                //    if (currentItem.FrameIndex == newItem.FrameIndex)
+                //        return;
+                //}
 
-                this.framePosBox.Items.Add(newItem);
+                //this.framePosBox.Items.Add(newItem);
                 this.framePosBox.Invalidate();
             }
         }
