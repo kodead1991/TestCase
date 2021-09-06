@@ -25,3 +25,4 @@ C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.GistoViewer.resou
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FramePosViewer.resources
 C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FramePosViewer.resources
 C:\Users\Professional\Documents\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.MyComboBox.resources
+C:\GitHub\TestCase\TestCaseWinforms\obj\Debug\TestCaseWinforms.FramePosDialog.resources

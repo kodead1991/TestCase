@@ -4,14 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace TestCaseWinforms
 {
     public class FramePosViewInfo
     {
         static int colorNumber = 0;
-        int _frameIndex;
-        Brush _frameIndexBrush;
+
+        private int _frameIndex;
+        private Brush _brush;
+        private DashStyle _dashStyle;
+
         Color[] colors = new Color[] 
         {
             Color.Red,
@@ -31,22 +35,29 @@ namespace TestCaseWinforms
             get { return _frameIndex; }
             set { _frameIndex = value; }
         }
-        public Brush FrameIndexBrush
+        public Brush Brush
         {
-            get { return _frameIndexBrush; }
-            set { _frameIndexBrush = value; }
+            get { return _brush; }
+            set { _brush = value; }
+        }
+
+        public DashStyle FrameDashStyle
+        {
+            get { return _dashStyle; }
+            set { _dashStyle = value; }
         }
 
         public FramePosViewInfo(int index)
         {
             _frameIndex = index;
-            _frameIndexBrush = new SolidBrush(colors[colorNumber++ % colors.Length]);
+            _brush = new SolidBrush(colors[colorNumber++ % colors.Length]);
         }
 
-        public FramePosViewInfo(int index, Color color)
+        public FramePosViewInfo(KadrPosLine line)
         {
-            _frameIndex = index;
-            _frameIndexBrush = new SolidBrush(color);
+            _frameIndex = line.pos;
+            _brush = new SolidBrush(line.color);
+            _dashStyle = line.dashStyle;
         }
     }
 }

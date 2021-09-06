@@ -178,6 +178,9 @@ namespace TestCaseWinforms
             for (int f = 0; f < ea.Info.Length; f++)
             {
                 _framePosInfo = ea.Info[f];
+                Pen pen = new Pen(_framePosInfo.Brush);
+                pen.DashStyle = _framePosInfo.FrameDashStyle;
+
                 for (int i = 0, j = _startFramePos; i < _frames.Count - 1 - j; i++)
                 {
                     //значения позиции кадра в приближении (i, i+1)
@@ -190,7 +193,7 @@ namespace TestCaseWinforms
 
                     //отрисовка сегмента графика
                     e.Graphics.DrawLine(
-                        new Pen(_framePosInfo.FrameIndexBrush),
+                        pen,
                         linePoint1,
                         linePoint2
                         );

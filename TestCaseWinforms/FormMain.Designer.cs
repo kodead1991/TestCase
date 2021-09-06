@@ -43,10 +43,10 @@ namespace TestCaseWinforms
             this.gistoView = new System.Windows.Forms.TabPage();
             this.gistoViewer = new TestCaseWinforms.GistoViewer();
             this.framePosView = new System.Windows.Forms.TabPage();
-            this.addKadrPosView = new System.Windows.Forms.Button();
+            this.deleteKadrPosView_button = new System.Windows.Forms.Button();
+            this.addKadrPosView_button = new System.Windows.Forms.Button();
             this.framePosBox = new System.Windows.Forms.ListBox();
             this.framePosViewer = new TestCaseWinforms.FramePosViewer();
-            this.deleteKadrPosView = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.frameTrackBar)).BeginInit();
             this.tabControl.SuspendLayout();
             this.frameView.SuspendLayout();
@@ -211,8 +211,8 @@ namespace TestCaseWinforms
             // 
             // framePosView
             // 
-            this.framePosView.Controls.Add(this.deleteKadrPosView);
-            this.framePosView.Controls.Add(this.addKadrPosView);
+            this.framePosView.Controls.Add(this.deleteKadrPosView_button);
+            this.framePosView.Controls.Add(this.addKadrPosView_button);
             this.framePosView.Controls.Add(this.framePosBox);
             this.framePosView.Controls.Add(this.framePosViewer);
             this.framePosView.Location = new System.Drawing.Point(4, 22);
@@ -223,15 +223,27 @@ namespace TestCaseWinforms
             this.framePosView.Text = "График";
             this.framePosView.UseVisualStyleBackColor = true;
             // 
-            // addKadrPosView
+            // deleteKadrPosView_button
             // 
-            this.addKadrPosView.Location = new System.Drawing.Point(6, 560);
-            this.addKadrPosView.Name = "addKadrPosView";
-            this.addKadrPosView.Size = new System.Drawing.Size(147, 23);
-            this.addKadrPosView.TabIndex = 2;
-            this.addKadrPosView.Text = "Добавить позицию кадра";
-            this.addKadrPosView.UseVisualStyleBackColor = true;
-            this.addKadrPosView.Click += new System.EventHandler(this.AddKadrPosView_Click);
+            this.deleteKadrPosView_button.Enabled = false;
+            this.deleteKadrPosView_button.Location = new System.Drawing.Point(6, 589);
+            this.deleteKadrPosView_button.Name = "deleteKadrPosView_button";
+            this.deleteKadrPosView_button.Size = new System.Drawing.Size(147, 23);
+            this.deleteKadrPosView_button.TabIndex = 3;
+            this.deleteKadrPosView_button.Text = "Удалить позицию кадра";
+            this.deleteKadrPosView_button.UseVisualStyleBackColor = true;
+            this.deleteKadrPosView_button.Click += new System.EventHandler(this.DeleteKadrPosView_Click);
+            // 
+            // addKadrPosView_button
+            // 
+            this.addKadrPosView_button.Enabled = false;
+            this.addKadrPosView_button.Location = new System.Drawing.Point(6, 560);
+            this.addKadrPosView_button.Name = "addKadrPosView_button";
+            this.addKadrPosView_button.Size = new System.Drawing.Size(147, 23);
+            this.addKadrPosView_button.TabIndex = 2;
+            this.addKadrPosView_button.Text = "Добавить позицию кадра";
+            this.addKadrPosView_button.UseVisualStyleBackColor = true;
+            this.addKadrPosView_button.Click += new System.EventHandler(this.AddKadrPosView_Click);
             // 
             // framePosBox
             // 
@@ -258,16 +270,6 @@ namespace TestCaseWinforms
             this.framePosViewer.Size = new System.Drawing.Size(1237, 612);
             this.framePosViewer.StartFramePos = 0;
             this.framePosViewer.TabIndex = 0;
-            // 
-            // deleteKadrPosView
-            // 
-            this.deleteKadrPosView.Location = new System.Drawing.Point(6, 589);
-            this.deleteKadrPosView.Name = "deleteKadrPosView";
-            this.deleteKadrPosView.Size = new System.Drawing.Size(147, 23);
-            this.deleteKadrPosView.TabIndex = 3;
-            this.deleteKadrPosView.Text = "Удалить позицию кадра";
-            this.deleteKadrPosView.UseVisualStyleBackColor = true;
-            this.deleteKadrPosView.Click += new System.EventHandler(this.DeleteKadrPosView_Click);
             // 
             // FormMain
             // 
@@ -316,8 +318,8 @@ namespace TestCaseWinforms
         private System.Windows.Forms.TabPage framePosView;
         private FramePosViewer framePosViewer;
         private System.Windows.Forms.ListBox framePosBox;
-        private System.Windows.Forms.Button addKadrPosView;
-        private System.Windows.Forms.Button deleteKadrPosView;
+        private System.Windows.Forms.Button addKadrPosView_button;
+        private System.Windows.Forms.Button deleteKadrPosView_button;
     }
 }
 

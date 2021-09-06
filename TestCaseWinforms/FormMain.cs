@@ -52,7 +52,7 @@ namespace TestCaseWinforms
             this.framePosViewer.LinesInfoNeeded += OnFramePosViewerOnLinesInfoNeeded;
 
             this.RemoveCheckedCell += FormMain_RemoveCheckedCell;
-            
+
         }
 
         private void FormMain_RemoveCheckedCell(object sender, EventArgs e)
@@ -137,6 +137,8 @@ namespace TestCaseWinforms
             this.comboBoxWordFormat.Enabled = true;
             this.radioButtonDEC.Enabled = true;
             this.radioButtonHEX.Enabled = true;
+            this.addKadrPosView_button.Enabled = true;
+            this.deleteKadrPosView_button.Enabled = true;
 
             this.frameViewer.FrameToShow = this.gistoViewer.FrameToShow = frames[0]; //передача массива кадров в Control отоборажения кадра
             this.frameViewer.Param = this.gistoViewer.Param = (FrameViewInfo)this.comboBoxWordFormat.Items[this.comboBoxWordFormat.SelectedIndex];
@@ -208,25 +210,21 @@ namespace TestCaseWinforms
 
         private void FramePosBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            //if (e.Index < 0)
-            //    return;
-
             //проверка на наличие элементов в listBox'e
             if (this.framePosBox.Items.Count == 0)
             {
-                //this.framePosBox.Items.Clear();
                 return;
-            }    
-                
+            }
 
             FramePosViewInfo f = (FramePosViewInfo)this.framePosBox.Items[e.Index];
 
             //отрисовка номера выбранной позиции
-            e.Graphics.DrawString(f.FrameIndex.ToString(),
-                e.Font, f.FrameIndexBrush, e.Bounds, StringFormat.GenericDefault);
+            e.Graphics.DrawString((f.FrameIndex + 1).ToString(),
+                e.Font, f.Brush, e.Bounds, StringFormat.GenericDefault);
 
-            Pen myPen = new Pen(f.FrameIndexBrush);
+            Pen myPen = new Pen(f.Brush);
             myPen.Width = 2.0F;
+            myPen.DashStyle = f.FrameDashStyle;
 
             //отрисовка примера линии
             e.Graphics.DrawLine(myPen, 25, 5 + e.Index * 13, 100, 6 + e.Index * 13);
@@ -238,7 +236,6 @@ namespace TestCaseWinforms
             //отрисовка прямоугольника выделения в listBox'e
             Rectangle itemRect = this.framePosBox.GetItemRectangle(this.framePosBox.SelectedIndex);
             e.Graphics.DrawRectangle(new Pen(Color.Black), itemRect);
-
         }
 
         //выбор элемента в listBox'e
@@ -250,7 +247,7 @@ namespace TestCaseWinforms
             Rectangle itemRect = this.framePosBox.GetItemRectangle(this.framePosBox.SelectedIndex);
             if (itemRect.Contains(e.Location))
             {
-                var framePosInfo = (FramePosViewInfo) this.framePosBox.Items[this.framePosBox.SelectedIndex];
+                var framePosInfo = (FramePosViewInfo)this.framePosBox.Items[this.framePosBox.SelectedIndex];
                 this.framePosViewer.ListBoxSelectedIndex = framePosInfo.FrameIndex;
                 this.framePosBox.Invalidate();
             }
@@ -283,17 +280,17 @@ namespace TestCaseWinforms
 
             if (addKadrPosDialog.ShowDialog() == DialogResult.OK)
             {
-                //var newItem = new FramePosViewInfo(this.frameViewer.SelectedIndex);
+                var newItem = new FramePosViewInfo(addKadrPosDialog.line);
 
-                ////проверка на повтор позиции в listBox'e
-                //for (int i = 0; i < this.framePosBox.Items.Count; i++)
-                //{
-                //    var currentItem = (FramePosViewInfo)this.framePosBox.Items[i];
-                //    if (currentItem.FrameIndex == newItem.FrameIndex)
-                //        return;
-                //}
+                //проверка на повтор позиции в listBox'e
+                for (int i = 0; i < this.framePosBox.Items.Count; i++)
+                {
+                    var currentItem = (FramePosViewInfo)this.framePosBox.Items[i];
+                    if (currentItem.FrameIndex == newItem.FrameIndex)
+                        return;
+                }
 
-                //this.framePosBox.Items.Add(newItem);
+                this.framePosBox.Items.Add(newItem);
                 this.framePosBox.Invalidate();
             }
         }
@@ -305,7 +302,7 @@ namespace TestCaseWinforms
                 MessageBox.Show("Позиция кадра не выбрана!", "Сообщение об ошибке", MessageBoxButtons.OK);
                 return;
             }
-                
+
 
             Rectangle itemRect = this.framePosBox.GetItemRectangle(this.framePosBox.SelectedIndex);
 

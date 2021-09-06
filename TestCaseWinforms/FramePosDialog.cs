@@ -11,14 +11,35 @@ using System.Windows.Forms;
 
 namespace TestCaseWinforms
 {
-    public class MyComboBox : ComboBox
+    public struct KadrPosLine
     {
-        public MyComboBox()
+        public Color color;
+        public int pos;
+        public DashStyle dashStyle;
+    }
+
+    public partial class FramePosDialog : Form
+    {
+        public KadrPosLine line;
+
+        public FramePosDialog()
         {
-            this.DrawMode = DrawMode.OwnerDrawVariable;
-            this.DropDownStyle = ComboBoxStyle.DropDownList;
+            InitializeComponent();
+
+            //Добавляем в combobox объекты для 
+            for (int i = 0; i < 5; i++)
+                this.lineType_comboBox.Items.Add(new object());
         }
-        protected override void OnDrawItem(DrawItemEventArgs e)
+
+        private void colorChooseButton_Click(object sender, EventArgs e)
+        {
+            var colorSelectDialog = new ColorDialog();
+
+            if (colorSelectDialog.ShowDialog() == DialogResult.OK)
+                this.selectedColor_button.BackColor = line.color = colorSelectDialog.Color;
+        }
+
+        private void LineType_comboBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             e.DrawBackground();
             Point p1 = new Point(e.Bounds.Left + 5, e.Bounds.Y + 8);
@@ -60,28 +81,67 @@ namespace TestCaseWinforms
                     break;
             }
         }
-    }
 
-    public partial class FramePosDialog : Form
-    {
-        private Color selectedColor;
-
-
-        public FramePosDialog()
+        private void KadrPos_textbox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            InitializeComponent();
-            for (int i = 0; i < 5; i++)
+            if (!Char.IsDigit(e.KeyChar) && e.KeyChar != 8) //цифры и backspace
             {
-                this.lineType_comboBox.Items.Add(new object());
+                e.Handled = true;
             }
         }
 
-        private void colorChooseButton_Click(object sender, EventArgs e)
+        private void Cancel_button_Click(object sender, EventArgs e)
         {
-            var colorSelectDialog = new ColorDialog();
+            this.Close();
+        }
 
-            if (colorSelectDialog.ShowDialog() == DialogResult.OK)
-                this.colorButton.BackColor = selectedColor = colorSelectDialog.Color;
+        private void OK_button_Click(object sender, EventArgs e)
+        {
+            if (this.kadrPos_textbox.Text == "")
+            {
+                MessageBox.Show("Введите номер позиции", "Ошибка");
+                this.kadrPos_textbox.Focus();
+            }
+            else if (Convert.ToInt32(this.kadrPos_textbox.Text) - 1 > 543 - 1) //номер позиции начинается с 0, а отображается с 1
+            {
+                MessageBox.Show("Несуществующий номер позиции кадра", "Ошибка");
+                this.kadrPos_textbox.Clear();
+                this.kadrPos_textbox.Focus();
+            }
+            else
+            {
+                this.line.color = this.selectedColor_button.BackColor;
+                this.line.pos = Convert.ToInt32(this.kadrPos_textbox.Text) - 1;
+                switch (lineType_comboBox.SelectedIndex)
+                {
+                    case 0: this.line.dashStyle = DashStyle.Solid; break;
+                    case 1: this.line.dashStyle = DashStyle.Dash; break;
+                    case 2: this.line.dashStyle = DashStyle.Dot; break;
+                    case 3: this.line.dashStyle = DashStyle.DashDot; break;
+                    case 4: this.line.dashStyle = DashStyle.DashDotDot; break;
+                }
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+        }
+
+        private void KadrPos_textbox_MouseEnter(object sender, EventArgs e)
+        {
+            ToolTip t = new ToolTip();
+            t.SetToolTip(this.kadrPos_textbox, "от 1 до 543");
+        }
+
+        private void LineType_comboBox_MouseEnter(object sender, EventArgs e)
+        {
+            ToolTip t = new ToolTip();
+            t.SetToolTip(this.lineType_comboBox, "Вид отображаемой линии");
+        }
+
+        private void SelectedColor_button_MouseEnter(object sender, EventArgs e)
+        {
+            ToolTip t = new ToolTip();
+            t.SetToolTip(this.selectedColor_button, "Цвет отображаемой линии");
         }
     }
 }
